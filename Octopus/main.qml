@@ -16,9 +16,7 @@ Window {
         height:parent.height
         Tab {
             title: "Red"
-            Column {
-                Image { source: "image://image_provider/camera" }
-            }
+            Image { source: "image://image_provider/camera" }
         }
         Tab {
             title: "Blue"
