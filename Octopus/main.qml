@@ -7,21 +7,37 @@ import QtQuick.Window 2.2//for get screen size
 Window {
     id:root
     visible: true
-    width: Screen.desktopAvailableWidth*0.618
-    height: Screen.desktopAvailableHeight*0.618
+    width: 2*512//Screen.desktopAvailableWidth*0.618
+    height: 2*288+50//Screen.desktopAvailableHeight*0.618
     title: qsTr("Octopus")
     TabView {
         id: tabview
         width:parent.width
         height:parent.height
         Tab {
-            title: "Red"
-            Image { source: "image://image_provider/camera" }
+            title: "Camera"
+            Image {
+                id:videoFrame
+                source: "image://image_provider/camera"
+                Timer {
+                    id: video_timer
+                    property int frameCounter: 0
+                    interval: 60
+                    repeat: true
+                    running: true
+                    onTriggered: {
+                        frameCounter += 1
+//                        console.log(frameCounter)
+                        videoFrame.source = "image://image_provider/camera"+frameCounter
+                    }
+                }
+            }
         }
         Tab {
-            title: "Blue"
+            title: "Test"
             Rectangle { color: "blue" }
         }
+
         style: TabViewStyle {
           frameOverlap: 0
           tabOverlap: 0
