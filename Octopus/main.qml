@@ -3,6 +3,11 @@ import QtQuick.Window 2.10
 import QtQuick.Controls 1.4// for TabView
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2//for get screen size
+import QtQuick.Layouts 1.3
+
+import QtQuick.Controls 2.3
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Dialogs 1.2
 
 Window {
     id:root
@@ -37,6 +42,14 @@ Window {
             title: "Test"
             Rectangle { color: "blue" }
         }
+        Tab {
+            title: "Settings"
+//            Rectangle { color: "blue" }
+            Settings{
+                width:parent.width
+                height:parent.height
+            }
+        }
 
         style: TabViewStyle {
           frameOverlap: 0
@@ -54,5 +67,4 @@ Window {
           }
         }
       }
-
 }

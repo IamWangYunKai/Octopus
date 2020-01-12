@@ -7,7 +7,10 @@ DESTDIR = $$PWD/../bin
 RC_ICONS = octopus.ico
 
 SOURCES += main.cpp \
-    imageprovider.cpp
+    imageprovider.cpp \
+    paraminterface.cpp \
+    parammanager.cpp \
+    treeitem.cpp
 
 RESOURCES += qml.qrc
 
@@ -16,4 +19,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    imageprovider.h
+    imageprovider.h \
+    paraminterface.h \
+    parammanager.h \
+    singleton.hpp \
+    treeitem.h
