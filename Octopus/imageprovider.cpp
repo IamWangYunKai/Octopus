@@ -7,20 +7,27 @@
 namespace {
     const int WIDTH = 640;
     const int HEIGHT = 480;
-    const int PORT_RECEIVE = 8080;
+    const int PORT_RECEIVE = 23333;
+    const QString BOARDCAST_ADDRESS = "233.233.233.233";
     std::thread* receiveThread = nullptr;
     QHostAddress address;
 }
 
 ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap){
-    if(receiveSocket.bind(QHostAddress::AnyIPv4, PORT_RECEIVE, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)) {
-        qDebug() << "****** start receive ! ******";
-        receiveThread = new std::thread([ = ] {readData();});
-        receiveThread->detach();
-    }
-    else {
-        qDebug() << "Bind Error in action module !";
-    }
+//    if(receiveSocket.bind(QHostAddress::AnyIPv4, PORT_RECEIVE, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)
+//            && receiveSocket.joinMulticastGroup(QHostAddress(BOARDCAST_ADDRESS))) {
+//        qDebug() << "****** start receive ! ******";
+//        receiveThread = new std::thread([ = ] {readData();});
+//        receiveThread->detach();
+//    }
+//    else {
+//        qDebug() << "Bind Error in action module !";
+//    }
+    auto res = receiveSocket.bind(QHostAddress::AnyIPv4, PORT_RECEIVE, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint);
+    auto res2 = receiveSocket.joinMulticastGroup(QHostAddress(BOARDCAST_ADDRESS));
+    qDebug() << res << res2;
+    receiveThread = new std::thread([ = ] {readData();});
+    receiveThread->detach();
 }
 
 QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize){
