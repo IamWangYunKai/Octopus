@@ -4,13 +4,14 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 
 DESTDIR = $$PWD/../bin
-RC_ICONS = octopus.ico
+RC_ICONS = resource/octopus.ico
 
-SOURCES += main.cpp \
-    imageprovider.cpp \
-    paraminterface.cpp \
-    parammanager.cpp \
-    treeitem.cpp
+SOURCES += \
+	src/main.cpp \
+    src/imageprovider.cpp \
+    src/paraminterface.cpp \
+    src/parammanager.cpp \
+    src/treeitem.cpp
 
 RESOURCES += qml.qrc
 
@@ -19,8 +20,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    imageprovider.h \
-    paraminterface.h \
-    parammanager.h \
-    singleton.hpp \
-    treeitem.h
+    include/imageprovider.h \
+    include/paraminterface.h \
+    include/parammanager.h \
+    include/singleton.hpp \
+    include/treeitem.h
+
+INCLUDEPATH += include
