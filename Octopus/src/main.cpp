@@ -4,6 +4,7 @@
 #include "imageprovider.h"
 #include "parammanager.h"
 #include "paraminterface.h"
+#include "WidgetOSRItem.h"
 
 int main(int argc, char *argv[]){
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -11,6 +12,7 @@ int main(int argc, char *argv[]){
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
+    qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
     app.setFont(QFont("Consolas", 14, QFont::Bold));
 
     QQmlApplicationEngine engine;

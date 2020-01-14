@@ -9,6 +9,8 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.2
 
+import BackEndInterface 1.0
+
 Window {
     id:root
     visible: true
@@ -41,6 +43,16 @@ Window {
         Tab {
             title: "Test"
             Rectangle { color: "blue" }
+        }
+        Tab {
+            title: "Widget"
+            WidgetOSRItem {
+                id: osrItem
+                anchors.top: parent.top
+                anchors.left: parent.left
+                width: parent.width
+                height: parent.height
+            }
         }
         Tab {
             title: "Settings"

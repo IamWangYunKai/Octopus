@@ -1,4 +1,4 @@
-QT += quick
+QT += quick datavisualization widgets
 CONFIG += c++11
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -8,10 +8,11 @@ RC_ICONS = resource/octopus.ico
 
 SOURCES += \
 	src/main.cpp \
-    src/imageprovider.cpp \
-    src/paraminterface.cpp \
-    src/parammanager.cpp \
-    src/treeitem.cpp
+        src/imageprovider.cpp \
+        src/paraminterface.cpp \
+        src/parammanager.cpp \
+        src/treeitem.cpp \
+        src/WidgetOSRItem.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,6 +25,7 @@ HEADERS += \
     include/paraminterface.h \
     include/parammanager.h \
     include/singleton.hpp \
-    include/treeitem.h
+    include/treeitem.h \
+    include/WidgetOSRItem.h
 
 INCLUDEPATH += include
