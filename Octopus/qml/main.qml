@@ -14,8 +14,8 @@ import BackEndInterface 1.0
 Window {
     id:root
     visible: true
-    width: 2*512//Screen.desktopAvailableWidth*0.618
-    height: 2*288+50//Screen.desktopAvailableHeight*0.618
+    width: 1024//Screen.desktopAvailableWidth*0.618
+    height: 576+50//Screen.desktopAvailableHeight*0.618
     title: qsTr("Octopus")
     TabView {
         id: tabview

@@ -3,6 +3,7 @@
 
 #include <QQuickImageProvider>
 #include <QUdpSocket>
+#include <QMutex>
 
 class ImageProvider : public QQuickImageProvider{
 public:
@@ -12,7 +13,9 @@ public:
 
 private:
     QImage image;
-    QByteArray rx;
+    QByteArray image_data;
+    int expect_package_num = -1;
+    QMutex mutex;
     QUdpSocket receiveSocket;
 };
 
