@@ -10,6 +10,7 @@ public:
     ImageProvider();
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) override;
     void readData();
+    QPixmap getDefaultImg();
 
 private:
     QImage image;

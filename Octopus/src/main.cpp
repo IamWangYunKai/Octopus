@@ -6,10 +6,12 @@
 #include "paraminterface.h"
 #include "WidgetOSRItem.h"
 #include "globaldata.h"
+#include "interaction.h"
 
 void initSetup(){
     GlobalData::instance();
     ParamManager::instance();
+    qmlRegisterType<Interaction>("BackEndInterface", 1, 0, "Interaction");
     qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
     qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
 }

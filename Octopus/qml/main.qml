@@ -17,6 +17,37 @@ Window {
     width: 1024//Screen.desktopAvailableWidth*0.618
     height: 576+50//Screen.desktopAvailableHeight*0.618
     title: qsTr("Octopus")
+
+    property bool stopFlag : false
+    property int fps : 0
+    Interaction{
+        id:interaction
+    }
+
+    Timer {
+        id: fps_timer
+        interval: 1000
+        repeat: true
+        running: true
+        onTriggered: {
+            fps = interaction.getFPS()
+            if(stopFlag){
+                fps_writer.text = "STOP"
+            }
+            else{
+                fps_writer.text = fps.toString()
+            }
+            if(tabview.currentIndex == 0){
+                fps_word.visible = true
+                fps_writer.visible = true
+            }
+            else{
+                fps_word.visible = false
+                fps_writer.visible = false
+            }
+        }
+    }
+
     TabView {
         id: tabview
         width:parent.width
@@ -29,13 +60,14 @@ Window {
                 Timer {
                     id: video_timer
                     property int frameCounter: 0
-                    interval: 60
+                    interval: 33
                     repeat: true
                     running: true
                     onTriggered: {
                         frameCounter += 1
 //                        console.log(frameCounter)
                         videoFrame.source = "image://image_provider/camera"+frameCounter
+//                        console.log(interaction.getLantency())
                     }
                 }
             }
@@ -64,19 +96,47 @@ Window {
         }
 
         style: TabViewStyle {
-          frameOverlap: 0
-          tabOverlap: 0
-          tab: Rectangle {
-              color: styleData.selected ? "#303030" : "grey"
-              implicitWidth: tabview.width/tabview.count;
-              implicitHeight: 50
-              Text {
-                  id: text
-                  anchors.centerIn: parent
-                  text: styleData.title
-                  color: styleData.selected ? "#dddddd" : "black"
-              }
-          }
+            frameOverlap: 0
+            tabOverlap: 0
+            tab: Rectangle {
+                color: styleData.selected ? "#303030" : "grey"
+                implicitWidth: tabview.width/tabview.count
+                implicitHeight: 50
+                Text {
+                    id: text
+                    anchors.centerIn: parent
+                    text: styleData.title
+                    color: styleData.selected ? "#dddddd" : "black"
+                }
+            }
         }
-      }
+        Text{
+            id : fps_word
+            visible: true
+            text : qsTr("FPS")
+            x:30
+            y:10
+            color:"blue"
+            font.pointSize: 16
+            font.weight:  Font.Bold
+        }
+        Text{
+            id : fps_writer;
+            visible: true
+            text : "0"
+            x:100
+            y:10
+            color:"blue"
+            font.pointSize: 16
+            font.weight:  Font.Bold
+        }
+    }
+
+    Shortcut{
+        sequence: "Ctrl+C"
+        onActivated: {
+            stopFlag = !stopFlag
+            interaction.setStop(stopFlag)
+        }
+    }
 }

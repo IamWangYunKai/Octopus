@@ -35,19 +35,31 @@ ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap){
     image = pixmap.toImage().convertToFormat(QImage::Format_RGB32);
 }
 
+QPixmap ImageProvider::getDefaultImg(){
+    QPixmap pixmap(width, height);
+    pixmap.fill(QColor(255, 255, 255).rgba());
+    return pixmap;
+}
+
 QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize){
 //    qDebug() << "Get id in qml:" << id ;
 //    if (size) *size = QSize(WIDTH, HEIGHT);
 //    QPixmap pixmap(requestedSize.width() > 0 ? requestedSize.width() : WIDTH,
 //                  requestedSize.height() > 0 ? requestedSize.height() : HEIGHT);
 //    pixmap.fill(QColor(127, 127, 0).rgba());
-    auto pixmap = QPixmap::fromImage(image);
-    return pixmap;
+    if (GlobalData::instance()->getStop()){
+        return this->getDefaultImg();
+    }
+    else{
+        auto pixmap = QPixmap::fromImage(image);
+        return pixmap;
+    }
 }
 
 void ImageProvider::readData(){
     while(true) {
         std::this_thread::sleep_for(std::chrono::microseconds(500));
+//        if(GlobalData::instance()->getStop()) continue;
         while (receiveSocket.state() == QUdpSocket::BoundState && receiveSocket.hasPendingDatagrams()) {
             QByteArray receive_data;
             receive_data.resize(receiveSocket.pendingDatagramSize());
@@ -72,6 +84,7 @@ void ImageProvider::readData(){
                     qint64 current = QDateTime::currentMSecsSinceEpoch();
                     qint64 latency = current - timestamp/1000;
                     GlobalData::instance()->setLantency(latency);
+                    GlobalData::instance()->countFPS();
 //                    qDebug() << "latency:" << latency << "ms";
                     mutex.lock();
                     image = QImage::fromData(image_data);
