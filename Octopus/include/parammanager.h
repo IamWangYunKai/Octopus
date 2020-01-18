@@ -3,12 +3,12 @@
 #include <QSettings>
 #include <QDebug>
 #include "singleton.hpp"
-namespace Global {
-class ParamManager {
+
+class CParamManager {
   public:
-    ParamManager();
-    ParamManager(const QString&);
-    ~ParamManager();
+    CParamManager();
+    CParamManager(const QString&);
+    ~CParamManager();
     bool loadParam(QChar&, const QString&, QChar d = 0);
     bool loadParam(int&, const QString&, int d = 0);
     bool loadParam(double&, const QString&, double d = 0);
@@ -26,14 +26,13 @@ class ParamManager {
   protected:
     QSettings *settings;
 };
-class MainParamManager: public ParamManager {
+class MainParamManager: public CParamManager {
   public:
-    MainParamManager(): ParamManager("param.ini") {}
+    MainParamManager(): CParamManager("param.ini") {}
     ~MainParamManager() {}
 };
 
-typedef Singleton<MainParamManager> ZParamManager;
-}
+typedef Singleton<MainParamManager> ParamManager;
 
 #endif // PARAMMANAGER_H
 

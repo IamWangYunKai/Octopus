@@ -5,10 +5,11 @@
 #include <thread>
 #include <QTime>
 #include "parammanager.h"
+#include "globaldata.h"
 
 namespace {
-//    const int WIDTH = 640;
-//    const int HEIGHT = 480;
+    int width = 1024;
+    int height = 576;
     const int PORT_RECEIVE = 23333;
     const QString BOARDCAST_ADDRESS = "233.233.233.233";
     std::thread* receiveThread = nullptr;
@@ -26,7 +27,12 @@ ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap){
     else {
         qDebug() << "Bind Error in action module !";
     }
-    Global::ZParamManager::instance()->loadParam(isTest, "Test/isTest", false);
+    ParamManager::instance()->loadParam(isTest, "Test/isTest", false);
+    ParamManager::instance()->loadParam(width, "Camera/width", 1024);
+    ParamManager::instance()->loadParam(height, "Camera/height", 576);
+    QPixmap pixmap(width, height);
+    pixmap.fill(QColor(255, 255, 255).rgba());
+    image = pixmap.toImage().convertToFormat(QImage::Format_RGB32);
 }
 
 QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize){
@@ -65,6 +71,7 @@ void ImageProvider::readData(){
                 if(data_length == image_data.length()){
                     qint64 current = QDateTime::currentMSecsSinceEpoch();
                     qint64 latency = current - timestamp/1000;
+                    GlobalData::instance()->setLantency(latency);
 //                    qDebug() << "latency:" << latency << "ms";
                     mutex.lock();
                     image = QImage::fromData(image_data);

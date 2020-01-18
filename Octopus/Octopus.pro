@@ -12,7 +12,8 @@ SOURCES += \
         src/paraminterface.cpp \
         src/parammanager.cpp \
         src/treeitem.cpp \
-        src/WidgetOSRItem.cpp
+        src/WidgetOSRItem.cpp \
+        src/globaldata.cpp
 
 RESOURCES += qml.qrc
 
@@ -26,6 +27,7 @@ HEADERS += \
     include/parammanager.h \
     include/singleton.hpp \
     include/treeitem.h \
-    include/WidgetOSRItem.h
+    include/WidgetOSRItem.h \
+    include/globaldata.h
 
 INCLUDEPATH += include

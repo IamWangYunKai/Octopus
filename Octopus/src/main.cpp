@@ -5,15 +5,23 @@
 #include "parammanager.h"
 #include "paraminterface.h"
 #include "WidgetOSRItem.h"
+#include "globaldata.h"
+
+void initSetup(){
+    GlobalData::instance();
+    ParamManager::instance();
+    qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
+    qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
+}
 
 int main(int argc, char *argv[]){
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
-    qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
     app.setFont(QFont("Consolas", 14, QFont::Bold));
+
+    initSetup();
 
     QQmlApplicationEngine engine;
 

@@ -3,7 +3,7 @@
 #include "treeitem.h"
 #include <regex>
 namespace{
-    auto paramManager = Global::ZParamManager::instance();
+    auto paramManager = ParamManager::instance();
 }
 ParamInterface::ParamInterface(QObject *parent)
     : QAbstractItemModel(parent),rootItem(nullptr) {
@@ -65,7 +65,7 @@ QString ParamInterface::getType(const QModelIndex &index){
 }
 void ParamInterface::reload(){
     beginResetModel();
-    Global::ZParamManager::instance()->sync();
+    ParamManager::instance()->sync();
     setupModelData();
     endResetModel();
     this->resetInternalData();
