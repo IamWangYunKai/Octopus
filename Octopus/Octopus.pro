@@ -33,3 +33,9 @@ HEADERS += \
     include/interaction.h
 
 INCLUDEPATH += include
+
+DISTFILES += \
+    android-sources/AndroidManifest.xml \
+#    resource/octopus.ico
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
