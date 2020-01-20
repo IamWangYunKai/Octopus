@@ -30,7 +30,8 @@ HEADERS += \
     include/treeitem.h \
     include/WidgetOSRItem.h \
     include/globaldata.h \
-    include/interaction.h
+    include/interaction.h \
+    include/viewerinterface.hpp
 
 INCLUDEPATH += include
 

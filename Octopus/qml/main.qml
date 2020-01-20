@@ -37,7 +37,15 @@ Window {
             else{
                 fps_writer.text = fps.toString()
             }
-            if(tabview.currentIndex == 0){
+        }
+    }
+
+    TabView {
+        id: tabview
+        width:parent.width
+        height:parent.height
+        onCurrentIndexChanged : {
+            if(currentIndex == 0){
                 fps_word.visible = true
                 fps_writer.visible = true
             }
@@ -46,12 +54,7 @@ Window {
                 fps_writer.visible = false
             }
         }
-    }
 
-    TabView {
-        id: tabview
-        width:parent.width
-        height:parent.height
         Tab {
             title: "Camera"
             Image {
@@ -76,6 +79,11 @@ Window {
             title: "Test"
             Rectangle { color: "blue" }
         }
+        Tab {
+            title: "Viewer"
+            Viewer {}
+        }
+
         Tab {
             title: "Widget"
             WidgetOSRItem {

@@ -7,6 +7,7 @@
 #include "WidgetOSRItem.h"
 #include "globaldata.h"
 #include "interaction.h"
+#include "viewerinterface.hpp"
 
 void initSetup(){
     GlobalData::instance();
@@ -14,6 +15,7 @@ void initSetup(){
     qmlRegisterType<Interaction>("BackEndInterface", 1, 0, "Interaction");
     qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
     qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
+    qmlRegisterType<ViewerInterface>("BackEndInterface", 1, 0, "ViewerInterface");
 }
 
 int main(int argc, char *argv[]){

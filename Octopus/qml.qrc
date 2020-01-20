@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>qml/main.qml</file>
         <file>qml/Settings.qml</file>
+        <file>qml/Viewer.qml</file>
+        <file>qml/Robot.qml</file>
+        <file>qml/Value.qml</file>
     </qresource>
 </RCC>
