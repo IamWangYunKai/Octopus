@@ -5,12 +5,12 @@ Rectangle{
     height:parent.itemHeight || 20;
     width:parent.itemWidth || 100;
     color:"transparent";
-    property double value : 1;
-    property int textWidth : 30;
+    property double value : 1.0;
+    property int textWidth : 60;
     Text{
         x:0;
         y:0;
-        color:"white";
+        color:"#303030";
         width:root.textWidth;
         height:root.height;
         text:Math.floor((value)*100)+"%";
@@ -18,9 +18,9 @@ Rectangle{
     Rectangle{
         id:vRec;
         y:0;
-        x:30;
+        x:root.textWidth;
         height : root.height;
-        width : root.value*(root.width-root.textWidth);
+        width : root.value*(root.width-root.textWidth*1.2);
         color:"#5cb85c";
         radius: height/2;
         Behavior on width{

@@ -4,6 +4,7 @@
 #include <QAbstractListModel>
 #include "globaldata.h"
 #include "parammanager.h"
+#include<cstdlib>
 
 class ViewerInterface : public QAbstractListModel{
     Q_OBJECT
@@ -34,7 +35,7 @@ public:
         return result;
     }
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override{
-        return 12;
+        return 18;
     }
     virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override{
         return 5;
@@ -49,9 +50,9 @@ public:
             case robotTeam:
                 return team;
             case robotBattery:
-                return 5.0;
+                return 1.0;//double((rand()%100)/100.);
             case robotCapacitance:
-                return 22.0;
+                return double((rand()%100)/100.);
             case robotInfrared:
                 return false;
             }
