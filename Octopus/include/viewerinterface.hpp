@@ -35,7 +35,7 @@ public:
         return result;
     }
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override{
-        return 18;
+        return 12;
     }
     virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override{
         return 5;
