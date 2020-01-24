@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QFont>
 #include "imageprovider.h"
@@ -8,6 +8,7 @@
 #include "globaldata.h"
 #include "interaction.h"
 #include "viewerinterface.hpp"
+#include "glitem.h"
 
 void initSetup(){
     GlobalData::instance();
@@ -16,21 +17,18 @@ void initSetup(){
     qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
     qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
     qmlRegisterType<ViewerInterface>("BackEndInterface", 1, 0, "ViewerInterface");
+    qmlRegisterType<GLItem>("BackEndInterface", 1, 0, "GLItem" );
 }
 
 int main(int argc, char *argv[]){
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
-    QGuiApplication app(argc, argv);
-
+    QApplication app(argc, argv);
     app.setFont(QFont("Consolas", 14, QFont::Bold));
 
     initSetup();
 
     QQmlApplicationEngine engine;
-
     engine.addImageProvider(QLatin1String("image_provider"), new ImageProvider);
-
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

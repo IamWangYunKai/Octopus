@@ -4,9 +4,6 @@ import QtQuick.Controls 1.4// for TabView
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2//for get screen size
 import QtQuick.Layouts 1.3
-
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.2
 
 import BackEndInterface 1.0
@@ -53,6 +50,14 @@ Window {
                 fps_word.visible = false
                 fps_writer.visible = false
             }
+
+            if(currentIndex == 3){
+                tabview.height = 0
+            }
+            else{
+                tabview.height = parent.height
+            }
+//            console.log(currentIndex, fps_word.visible, fps_writer.visible)
         }
 
         Tab {
@@ -77,11 +82,41 @@ Window {
         }
         Tab {
             title: "Test"
-            Rectangle { color: "blue" }
+            Rectangle { color: "#303030" }
         }
         Tab {
             title: "Viewer"
-            Viewer {}
+            Viewer{}
+        }
+        Tab {
+            title: "OpenGL"
+            Rectangle{
+                width:400
+                height:400
+                GLItem {
+                    id: cube
+                    anchors.centerIn: parent
+                    ParallelAnimation {
+                        running: true
+                        NumberAnimation {
+                            target: cube
+                            property: "rotateAngle"
+                            from: 0
+                            to: 360
+                            duration: 5000
+                        }
+
+                        Vector3dAnimation {
+                            target: cube
+                            property: "axis"
+                            from: Qt.vector3d( 0, 1, 0 )
+                            to: Qt.vector3d( 1, 0, 0 )
+                            duration: 5000
+                        }
+                        loops: Animation.Infinite
+                    }
+                }
+            }
         }
 
         Tab {
@@ -94,9 +129,9 @@ Window {
                 height: parent.height
             }
         }
+
         Tab {
             title: "Settings"
-//            Rectangle { color: "blue" }
             Settings{
                 width:parent.width
                 height:parent.height
@@ -145,6 +180,42 @@ Window {
         onActivated: {
             stopFlag = !stopFlag
             interaction.setStop(stopFlag)
+        }
+    }
+    Shortcut{
+        sequence: "F1"
+        onActivated: {
+            tabview.currentIndex = 0
+        }
+    }
+    Shortcut{
+        sequence: "F2"
+        onActivated: {
+            tabview.currentIndex = 1
+        }
+    }
+    Shortcut{
+        sequence: "F3"
+        onActivated: {
+            tabview.currentIndex = 2
+        }
+    }
+    Shortcut{
+        sequence: "F4"
+        onActivated: {
+            tabview.currentIndex = 3
+        }
+    }
+    Shortcut{
+        sequence: "F5"
+        onActivated: {
+            tabview.currentIndex = 4
+        }
+    }
+    Shortcut{
+        sequence: "F6"
+        onActivated: {
+            tabview.currentIndex = 5
         }
     }
 }

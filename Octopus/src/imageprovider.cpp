@@ -20,7 +20,7 @@ namespace {
 ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap){
     if(receiveSocket.bind(QHostAddress::AnyIPv4, PORT_RECEIVE, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)
             && receiveSocket.joinMulticastGroup(QHostAddress(BOARDCAST_ADDRESS))) {
-        qDebug() << "****** start receive ! ******";
+//        qDebug() << "****** start receive ! ******";
         receiveThread = new std::thread([ = ] {readData();});
         receiveThread->detach();
     }
