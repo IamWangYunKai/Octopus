@@ -1,4 +1,4 @@
-QT += quick datavisualization widgets  opengl
+QT += quick widgets  opengl
 CONFIG += c++14
 
 DEFINES += QT_DEPRECATED_WARNINGS

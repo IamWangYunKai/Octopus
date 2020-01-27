@@ -36,6 +36,9 @@ Window {
             }
         }
     }
+    onHeightChanged : {
+        tabview.height = root.height
+    }
 
     TabView {
         id: tabview
@@ -57,9 +60,7 @@ Window {
             else{
                 tabview.height = parent.height
             }
-//            console.log(currentIndex, fps_word.visible, fps_writer.visible)
         }
-
         Tab {
             title: "Camera"
             Image {
@@ -82,7 +83,7 @@ Window {
         }
         Tab {
             title: "Test"
-            Rectangle { color: "#303030" }
+            Rectangle { color: "steelblue" }
         }
         Tab {
             title: "Viewer"
@@ -137,7 +138,6 @@ Window {
                 height:parent.height
             }
         }
-
         style: TabViewStyle {
             frameOverlap: 0
             tabOverlap: 0
