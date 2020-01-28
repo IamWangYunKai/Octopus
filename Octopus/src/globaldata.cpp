@@ -3,13 +3,13 @@
 CGlobalData::CGlobalData(){
 }
 
-void CGlobalData::setLantency(qint64 latency){
+void CGlobalData::setLatency(qint64 latency){
     mutex.lock();
     this->latency = latency;
     mutex.unlock();
 }
 
-qint64 CGlobalData::getLantency(){
+qint64 CGlobalData::getLatency(){
     mutex.lock();
     auto latency = this->latency;
     mutex.unlock();

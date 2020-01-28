@@ -4,8 +4,8 @@
 Interaction::Interaction(QObject *parent) : QObject(parent) {
 }
 
-int Interaction::getLantency(){
-    return GlobalData::instance()->getLantency();
+int Interaction::getLatency(){
+    return GlobalData::instance()->getLatency();
 }
 
 void Interaction::setStop(bool stopFlag){

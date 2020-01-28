@@ -7,8 +7,8 @@
 class CGlobalData{
 public:
     CGlobalData();
-    void setLantency(qint64 latency);
-    qint64 getLantency();
+    void setLatency(qint64 latency);
+    qint64 getLatency();
     int getFPS(); //get FPS every second, and clear it
     void countFPS();
     void setStop(bool flag);

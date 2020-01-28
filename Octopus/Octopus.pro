@@ -15,7 +15,6 @@ SOURCES += \
         src/widgetosritem.cpp \
         src/globaldata.cpp \
         src/interaction.cpp \
-        src/scatterdatamodifier.cpp \
         src/glitem.cpp
 
 RESOURCES += qml.qrc \
@@ -35,7 +34,6 @@ HEADERS += \
     include/globaldata.h \
     include/interaction.h \
     include/viewerinterface.hpp \
-    include/scatterdatamodifier.h \
     include/glitem.h
 
 INCLUDEPATH += include

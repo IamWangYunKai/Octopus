@@ -17,6 +17,7 @@ Window {
 
     property bool stopFlag : false
     property int fps : 0
+    property int latency : 0
     Interaction{
         id:interaction
     }
@@ -28,11 +29,19 @@ Window {
         running: true
         onTriggered: {
             fps = interaction.getFPS()
+            latency = interaction.getLatency()
             if(stopFlag){
                 fps_writer.text = "STOP"
+                latency_writer.text = "STOP"
             }
             else{
                 fps_writer.text = fps.toString()
+                if(fps == 0){
+                    latency_writer.text = "--"
+                }
+                else{
+                    latency_writer.text = latency.toString() + " ms"
+                }
             }
         }
     }
@@ -48,10 +57,14 @@ Window {
             if(currentIndex == 0){
                 fps_word.visible = true
                 fps_writer.visible = true
+                latency_word.visible = true
+                latency_writer.visible = true
             }
             else{
                 fps_word.visible = false
                 fps_writer.visible = false
+                latency_word.visible = false
+                latency_writer.visible = false
             }
 
             if(currentIndex == 3){
@@ -76,7 +89,7 @@ Window {
                         frameCounter += 1
 //                        console.log(frameCounter)
                         videoFrame.source = "image://image_provider/camera"+frameCounter
-//                        console.log(interaction.getLantency())
+//                        console.log(interaction.getLatency())
                     }
                 }
             }
@@ -153,12 +166,23 @@ Window {
                 }
             }
         }
+
         Text{
             id : fps_word
             visible: true
-            text : qsTr("FPS")
+            text : qsTr("FPS:")
             x:30
             y:10
+            color:"blue"
+            font.pointSize: 16
+            font.weight:  Font.Bold
+        }
+        Text{
+            id : latency_word
+            visible: true
+            text : qsTr("Latency:")
+            x:30
+            y:60
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold
@@ -169,6 +193,16 @@ Window {
             text : "0"
             x:100
             y:10
+            color:"blue"
+            font.pointSize: 16
+            font.weight:  Font.Bold
+        }
+        Text{
+            id : latency_writer;
+            visible: true
+            text : "--"
+            x:150
+            y:60
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold

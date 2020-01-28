@@ -8,7 +8,7 @@ class Interaction : public QObject {
     Q_OBJECT
 public:
     explicit Interaction(QObject *parent = nullptr);
-    Q_INVOKABLE int getLantency();
+    Q_INVOKABLE int getLatency();
     Q_INVOKABLE void setStop(bool stopFlag);
     Q_INVOKABLE int getFPS();
 private:

@@ -25,9 +25,9 @@ void WidgetOSRItem::paint(QPainter *painter){
     if(mOSRWidget == NULL){
         painter->drawText(this->boundingRect(), Qt::AlignCenter, "Hello World !");
         QPainterPath path;
-        path.moveTo(20*5, 80*5);
-        path.lineTo(20*5, 30*5);
-        path.cubicTo(80*5, 0, 50*5, 50*5, 80*5, 80*5);
+        path.moveTo(200+20*5, 80*5);
+        path.lineTo(200+20*5, 30*5);
+        path.cubicTo(200+80*5, 0, 200+50*5, 50*5, 200+80*5, 80*5);
         painter->drawPath(path);
     }
     else{

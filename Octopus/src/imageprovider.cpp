@@ -83,7 +83,7 @@ void ImageProvider::readData(){
                 if(data_length == image_data.length()){
                     qint64 current = QDateTime::currentMSecsSinceEpoch();
                     qint64 latency = current - timestamp/1000;
-                    GlobalData::instance()->setLantency(latency);
+                    GlobalData::instance()->setLatency(latency);
                     GlobalData::instance()->countFPS();
 //                    qDebug() << "latency:" << latency << "ms";
                     mutex.lock();
