@@ -1,6 +1,6 @@
 # Octopus
 
-**This is a remote visualization app for robots.  This app can be run on Linux/Windows/Android. **
+**This is a remote visualization app for robots.  This app can be run on Linux/Windows/Android.**
 
 ### Requirement
 
