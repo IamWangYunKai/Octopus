@@ -4,15 +4,16 @@
 #include <QQuickImageProvider>
 #include <QUdpSocket>
 #include <QMutex>
+#include "udpreceiver.h"
 
-class ImageProvider : public QQuickImageProvider{
+class ImageProvider : public QQuickImageProvider, public UDPReceiver{
 public:
     ImageProvider();
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) override;
-    void readData();
     QPixmap getDefaultImg();
 
 private:
+    virtual void parseData(QByteArray receivedData);
     QImage image;
     QByteArray image_data;
     int expect_package_num = -1;

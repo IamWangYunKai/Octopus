@@ -12,6 +12,7 @@ SOURCES += \
         src/paraminterface.cpp \
         src/parammanager.cpp \
         src/treeitem.cpp \
+        src/udpreceiver.cpp \
         src/widgetosritem.cpp \
         src/globaldata.cpp \
         src/interaction.cpp \
@@ -34,7 +35,8 @@ HEADERS += \
     include/globaldata.h \
     include/interaction.h \
     include/viewerinterface.hpp \
-    include/glitem.h
+    include/glitem.h \
+    include/udpreceiver.h
 
 INCLUDEPATH += include
 
