@@ -4,15 +4,17 @@
 #include "imageprovider.h"
 #include "parammanager.h"
 #include "paraminterface.h"
-#include "WidgetOSRItem.h"
+#include "widgetosritem.h"
 #include "globaldata.h"
 #include "interaction.h"
 #include "viewerinterface.hpp"
 #include "glitem.h"
+#include "cmdreceiver.h"
 
 void initSetup(){
     GlobalData::instance();
     ParamManager::instance();
+    CommandReceiver::instance();
     qmlRegisterType<Interaction>("BackEndInterface", 1, 0, "Interaction");
     qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
     qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");

@@ -18,7 +18,6 @@ private:
     QByteArray image_data;
     int expect_package_num = -1;
     QMutex mutex;
-    QUdpSocket receiveSocket;
 };
 
 #endif // IMAGEPROVIDER_H

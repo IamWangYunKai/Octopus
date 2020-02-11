@@ -7,6 +7,7 @@ DESTDIR = $$PWD/../bin
 RC_ICONS = resource/octopus.ico
 
 SOURCES += \
+        src/cmdreceiver.cpp \
 	src/main.cpp \
         src/imageprovider.cpp \
         src/paraminterface.cpp \
@@ -36,7 +37,8 @@ HEADERS += \
     include/interaction.h \
     include/viewerinterface.hpp \
     include/glitem.h \
-    include/udpreceiver.h
+    include/udpreceiver.h \
+    include/cmdreceiver.h
 
 INCLUDEPATH += include
 

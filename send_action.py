@@ -3,7 +3,7 @@ import json
 import socket
 from time import sleep
 
-port = 23333
+port = 23334
 address = '233.233.233.233'
 
 def sendData():
