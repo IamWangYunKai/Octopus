@@ -17,8 +17,8 @@ Grid{
     property int number : 0;
     Rectangle{
         id:icon;
-        width:parent.height;
-        height:parent.height - parent.topPadding;
+        width: parent.height;
+        height: parent.height - parent.topPadding;
         radius: height/4;
         color : root.team ? "#f0ad4e" : "#337ab7";
 //        source:number == -1 ? "/robot/z.png" : ("/robot/" + root.color + root.number + ".png");
@@ -37,17 +37,17 @@ Grid{
             height:parent.height
             radius: height/4;
             color: "#d9534f"
-            opacity: root.infrared ? 1 : 0
+            opacity: root.infrared ? 0.7 : 0
         }
     }
     Grid{
         verticalItemAlignment: Grid.AlignVCenter;
         horizontalItemAlignment: Grid.AlignHCenter;
-        spacing: 1;
+        spacing: 10;
         columns: 1;
         rows : 2;
         width : parent.width - parent.height - spacing;
-        height:parent.height - parent.topPadding;
+        height: parent.height - parent.topPadding;
         property int itemHeight : (height - (rows-1) * spacing - 2*padding)/rows;
         property int itemWidth : width;
 

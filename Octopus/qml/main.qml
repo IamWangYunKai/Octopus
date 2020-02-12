@@ -11,8 +11,8 @@ import BackEndInterface 1.0
 Window {
     id:root
     visible: true
-    width: 1024//Screen.desktopAvailableWidth*0.618
-    height: 576+50//Screen.desktopAvailableHeight*0.618
+    width: 1440;//Screen.desktopAvailableWidth*0.618
+    height: 720;//Screen.desktopAvailableHeight*0.618
     title: qsTr("Octopus")
 
     property bool stopFlag : false
@@ -96,7 +96,34 @@ Window {
         }
         Tab {
             title: "Test"
-            Rectangle { color: "steelblue" }
+            Rectangle {
+                width: parent.height
+                height: parent.height
+                Canvas {
+                    anchors.fill: parent
+                    onPaint: {
+                        var ctx = getContext("2d");
+                        ctx.reset();
+
+                        var centreX = width/2;
+                        var centreY = height/2;
+
+                        ctx.beginPath();
+                        ctx.fillStyle = "black";
+                        ctx.moveTo(centreX, centreY);
+                        ctx.arc(centreX, centreY, width/4, 0, Math.PI * 0.5, false);
+                        ctx.lineTo(centreX, centreY);
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.fillStyle = "red";
+                        ctx.moveTo(centreX, centreY);
+                        ctx.arc(centreX, centreY, width/4, Math.PI * 0.5, Math.PI * 2, false);
+                        ctx.lineTo(centreX, centreY);
+                        ctx.fill();
+                    }
+                }
+            }
         }
         Tab {
             title: "Viewer"

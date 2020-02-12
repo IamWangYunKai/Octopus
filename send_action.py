@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
 import socket
+import random
 from time import sleep
 
 port = 23334
 address = '233.233.233.233'
 
 def sendData():
-    data = {'v':15, 'w':2.5, 'c':True}
+    data = {'v':random.random()*5, 'w':random.random()*5, 'c':False if random.random() > 0.3 else True}
     print('send data:', data)
     data = json.dumps(data).encode()
     ret = clisocket.sendto(data,(address,port))

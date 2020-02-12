@@ -12,11 +12,10 @@ Item {
         anchors.fill: parent;
         spacing: 0;
         rowSpacing: 0;
-        columns:2;
-        property int itemHeight : 40;
-        property int itemWidth : width/2;
+        columns:1;
+        property int itemHeight : 100;
+        property int itemWidth : width;
         Repeater{
-//            model:[0,7,8,9,10,11,12,13,14,15,16];
             model: viewerInterface;
             Robot{
                 number: mID;

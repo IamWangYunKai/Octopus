@@ -15,3 +15,5 @@ void Interaction::setStop(bool stopFlag){
 int Interaction::getFPS(){
     return GlobalData::instance()->getFPS();
 }
+
+

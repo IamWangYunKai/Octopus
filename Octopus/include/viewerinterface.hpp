@@ -1,21 +1,21 @@
 #ifndef VIEWERINTERFACE_H
 #define VIEWERINTERFACE_H
 
+#include <QObject>
 #include <QAbstractListModel>
 #include "globaldata.h"
 #include "parammanager.h"
-#include<cstdlib>
+#include <cstdlib>
+#include "cmdreceiver.h"
+#include <QTimer>
 
 class ViewerInterface : public QAbstractListModel{
     Q_OBJECT
-//public slots:
-//    void changeRobotInfo(int team,int id){
-//        emit dataChanged(createIndex(team+id*PARAM::TEAMS,0),createIndex(team+id*PARAM::TEAMS,0));
-//    }
 public:
     explicit ViewerInterface(QObject *parent = Q_NULLPTR){
-//        QObject::connect(ZSS::ZActionModule::instance(),SIGNAL(receiveRobotInfo(int,int)),this,SLOT(changeRobotInfo(int,int)));
-//        QObject::connect(ZSS::ZSimModule::instance(),SIGNAL(receiveSimInfo(int,int)),this,SLOT(changeRobotInfo(int,int)));
+        timer = new QTimer(this);
+        QObject::connect(timer, SIGNAL(timeout()), this, SLOT(changeRobotInfo()));
+        timer->start(16);
     }
     enum Roles {
         robotID = Qt::UserRole + 1,
@@ -35,7 +35,7 @@ public:
         return result;
     }
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override{
-        return 12;
+        return 1;
     }
     virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override{
         return 5;
@@ -50,15 +50,21 @@ public:
             case robotTeam:
                 return team;
             case robotBattery:
-                return 1.0;//double((rand()%100)/100.);
+                return CommandReceiver::instance()->getV();
             case robotCapacitance:
-                return double((rand()%100)/100.);
+                return CommandReceiver::instance()->getW();
             case robotInfrared:
-                return false;
+                return CommandReceiver::instance()->getC();
             }
             return 0;
         }
     }
+public slots:
+    void changeRobotInfo(){
+        emit dataChanged(createIndex(0, 0),createIndex(0, 0));
+    }
+private:
+    QTimer *timer;
 };
 
 #endif // VIEWERINTERFACE_H
