@@ -130,7 +130,6 @@ Window {
                     }
                 }
                 Column{
-                    topPadding : parent.height/8
                     CircularGauge {
                         id: fuelGauge
                         value: 0.6
