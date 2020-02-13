@@ -1,5 +1,6 @@
 #include "interaction.h"
 #include "globaldata.h"
+#include "cmdreceiver.h"
 
 Interaction::Interaction(QObject *parent) : QObject(parent) {
 }
@@ -16,4 +17,11 @@ int Interaction::getFPS(){
     return GlobalData::instance()->getFPS();
 }
 
+double Interaction::getV(){
+    return CommandReceiver::instance()->getV();
+}
+
+double Interaction::getW(){
+    return CommandReceiver::instance()->getW();
+}
 

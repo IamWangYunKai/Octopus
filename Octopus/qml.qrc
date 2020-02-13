@@ -5,5 +5,10 @@
         <file>qml/Viewer.qml</file>
         <file>qml/Robot.qml</file>
         <file>qml/Value.qml</file>
+        <file>qml/DashboardGaugeStyle.qml</file>
+        <file>qml/TachometerStyle.qml</file>
+        <file>qml/IconGaugeStyle.qml</file>
+        <file>resource/fuel-icon.png</file>
+        <file>resource/temperature-icon.png</file>
     </qresource>
 </RCC>

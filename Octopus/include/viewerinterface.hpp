@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QAbstractListModel>
 #include "globaldata.h"
-#include "parammanager.h"
 #include <cstdlib>
 #include "cmdreceiver.h"
 #include <QTimer>
@@ -52,7 +51,7 @@ public:
             case robotBattery:
                 return CommandReceiver::instance()->getV();
             case robotCapacitance:
-                return CommandReceiver::instance()->getW();
+                return (CommandReceiver::instance()->getW()+1)/2;
             case robotInfrared:
                 return CommandReceiver::instance()->getC();
             }

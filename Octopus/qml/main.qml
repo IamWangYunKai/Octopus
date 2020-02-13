@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2//for get screen size
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
+import QtQuick.Extras 1.4
 
 import BackEndInterface 1.0
 
@@ -18,12 +19,14 @@ Window {
     property bool stopFlag : false
     property int fps : 0
     property int latency : 0
+    property double v : 0
+    property double w : 0
     Interaction{
         id:interaction
     }
 
     Timer {
-        id: fps_timer
+        id: second_timer
         interval: 1000
         repeat: true
         running: true
@@ -43,6 +46,16 @@ Window {
                     latency_writer.text = latency.toString() + " ms"
                 }
             }
+        }
+    }
+    Timer {
+        id: frame_timer
+        interval: 16
+        repeat: true
+        running: true
+        onTriggered: {
+            v = interaction.getV()
+            w = interaction.getW()
         }
     }
     onHeightChanged : {
@@ -96,31 +109,84 @@ Window {
         }
         Tab {
             title: "Test"
-            Rectangle {
-                width: parent.height
-                height: parent.height
-                Canvas {
-                    anchors.fill: parent
-                    onPaint: {
-                        var ctx = getContext("2d");
-                        ctx.reset();
+            Row {
+                id: gaugeRow
+                spacing: parent.width * 0.05
+                padding: parent.width * 0.1
+                anchors.centerIn: parent
+                CircularGauge {
+                    id: speedometer
+                    value: v*100    // here get value of v, which comes from frame_timer
+                    anchors.verticalCenter: parent.verticalCenter
+                    minimumValue: 0
+                    maximumValue: 240
+                    width: parent.width/4
+                    height: width
+                    style: DashboardGaugeStyle {}
+                    Behavior on value {
+                        NumberAnimation {
+                            duration: 500
+                        }
+                    }
+                }
+                Column{
+                    topPadding : parent.height/8
+                    CircularGauge {
+                        id: fuelGauge
+                        value: 0.6
+                        maximumValue: 1
+                        width: gaugeRow.width/8
+                        height: width
+                        style: IconGaugeStyle {
+                            id: fuelGaugeStyle
 
-                        var centreX = width/2;
-                        var centreY = height/2;
+                            icon: "qrc:/resource/fuel-icon.png"
+                            minWarningColor: Qt.rgba(0.5, 0, 0, 1)
 
-                        ctx.beginPath();
-                        ctx.fillStyle = "black";
-                        ctx.moveTo(centreX, centreY);
-                        ctx.arc(centreX, centreY, width/4, 0, Math.PI * 0.5, false);
-                        ctx.lineTo(centreX, centreY);
-                        ctx.fill();
+                            tickmarkLabel: Text {
+                                color: "white"
+                                visible: styleData.value === 0 || styleData.value === 1
+                                font.pixelSize: fuelGaugeStyle.toPixels(0.225)
+                                text: styleData.value === 0 ? "E" : (styleData.value === 1 ? "F" : "")
+                            }
+                        }
+                    }
+                    CircularGauge {
+                        value: 0.4
+                        maximumValue: 1
+                        width: gaugeRow.width/8
+                        height: width
+                        style: IconGaugeStyle {
+                            id: tempGaugeStyle
 
-                        ctx.beginPath();
-                        ctx.fillStyle = "red";
-                        ctx.moveTo(centreX, centreY);
-                        ctx.arc(centreX, centreY, width/4, Math.PI * 0.5, Math.PI * 2, false);
-                        ctx.lineTo(centreX, centreY);
-                        ctx.fill();
+                            icon: "qrc:/resource/temperature-icon.png"
+                            maxWarningColor: Qt.rgba(0.5, 0, 0, 1)
+
+                            tickmarkLabel: Text {
+                                color: "white"
+                                visible: styleData.value === 0 || styleData.value === 1
+                                font.pixelSize: tempGaugeStyle.toPixels(0.225)
+                                text: styleData.value === 0 ? "C" : (styleData.value === 1 ? "H" : "")
+                            }
+                        }
+                    }
+                }
+                CircularGauge {
+                    id: tachometer
+                    width: parent.width/4
+                    height: width
+                    value: w*500    // here get value of w, which comes from frame_timer
+                    minimumValue: -500
+                    maximumValue: 500
+                    anchors.verticalCenter: parent.verticalCenter
+                    style: TachometerStyle {
+                        labelStepSize: (tachometer.maximumValue - tachometer.minimumValue)/10
+                        tickmarkStepSize: labelStepSize/2
+                    }
+                    Behavior on value {
+                        NumberAnimation {
+                            duration: 500
+                        }
                     }
                 }
             }
@@ -129,36 +195,36 @@ Window {
             title: "Viewer"
             Viewer{}
         }
-//        Tab {
-//            title: "OpenGL"
-//            Rectangle{
-//                width:400
-//                height:400
-//                GLItem {
-//                    id: cube
-//                    anchors.centerIn: parent
-//                    ParallelAnimation {
-//                        running: true
-//                        NumberAnimation {
-//                            target: cube
-//                            property: "rotateAngle"
-//                            from: 0
-//                            to: 360
-//                            duration: 5000
-//                        }
+        Tab {
+            title: "OpenGL"
+            Rectangle{
+                width:400
+                height:400
+                GLItem {
+                    id: cube
+                    anchors.centerIn: parent
+                    ParallelAnimation {
+                        running: true
+                        NumberAnimation {
+                            target: cube
+                            property: "rotateAngle"
+                            from: 0
+                            to: 360
+                            duration: 5000
+                        }
 
-//                        Vector3dAnimation {
-//                            target: cube
-//                            property: "axis"
-//                            from: Qt.vector3d( 0, 1, 0 )
-//                            to: Qt.vector3d( 1, 0, 0 )
-//                            duration: 5000
-//                        }
-//                        loops: Animation.Infinite
-//                    }
-//                }
-//            }
-//        }
+                        Vector3dAnimation {
+                            target: cube
+                            property: "axis"
+                            from: Qt.vector3d( 0, 1, 0 )
+                            to: Qt.vector3d( 1, 0, 0 )
+                            duration: 5000
+                        }
+                        loops: Animation.Infinite
+                    }
+                }
+            }
+        }
 
         Tab {
             title: "Widget"

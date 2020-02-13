@@ -11,6 +11,8 @@ public:
     Q_INVOKABLE int getLatency();
     Q_INVOKABLE void setStop(bool stopFlag);
     Q_INVOKABLE int getFPS();
+    Q_INVOKABLE double getV();
+    Q_INVOKABLE double getW();
 private:
     QMutex mutex;
 };

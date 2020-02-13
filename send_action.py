@@ -8,7 +8,7 @@ port = 23334
 address = '233.233.233.233'
 
 def sendData():
-    data = {'v':random.random()*5, 'w':random.random()*5, 'c':False if random.random() > 0.3 else True}
+    data = {'v':random.random()*5, 'w':random.random()*10-5, 'c':False if random.random() > 0.3 else True}
     print('send data:', data)
     data = json.dumps(data).encode()
     ret = clisocket.sendto(data,(address,port))
