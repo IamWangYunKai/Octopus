@@ -6,6 +6,8 @@
 #include <QTime>
 #include "parammanager.h"
 #include "globaldata.h"
+#include <QPainter>
+#include "debugger.h"
 
 namespace {
     int width = 1024;
@@ -49,6 +51,13 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
     }
     else{
         auto pixmap = QPixmap::fromImage(image);
+        QPainter painter(&pixmap);
+        painter.setPen(QPen(Qt::red, 2));
+        Debugger::line(painter, QLine(100, 100,200, 200));
+//        painter.drawRect(QRect(100, 100,
+//                               200, 200));
+
+//        painter.drawText(QRectF(100, 80, 200, 200), Qt::AlignLeft, QString("debug message"));
         return pixmap;
     }
 }

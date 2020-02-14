@@ -194,36 +194,36 @@ Window {
             title: "Viewer"
             Viewer{}
         }
-        Tab {
-            title: "OpenGL"
-            Rectangle{
-                width:400
-                height:400
-                GLItem {
-                    id: cube
-                    anchors.centerIn: parent
-                    ParallelAnimation {
-                        running: true
-                        NumberAnimation {
-                            target: cube
-                            property: "rotateAngle"
-                            from: 0
-                            to: 360
-                            duration: 5000
-                        }
+//        Tab {
+//            title: "OpenGL"
+//            Rectangle{
+//                width:400
+//                height:400
+//                GLItem {
+//                    id: cube
+//                    anchors.centerIn: parent
+//                    ParallelAnimation {
+//                        running: true
+//                        NumberAnimation {
+//                            target: cube
+//                            property: "rotateAngle"
+//                            from: 0
+//                            to: 360
+//                            duration: 5000
+//                        }
 
-                        Vector3dAnimation {
-                            target: cube
-                            property: "axis"
-                            from: Qt.vector3d( 0, 1, 0 )
-                            to: Qt.vector3d( 1, 0, 0 )
-                            duration: 5000
-                        }
-                        loops: Animation.Infinite
-                    }
-                }
-            }
-        }
+//                        Vector3dAnimation {
+//                            target: cube
+//                            property: "axis"
+//                            from: Qt.vector3d( 0, 1, 0 )
+//                            to: Qt.vector3d( 1, 0, 0 )
+//                            duration: 5000
+//                        }
+//                        loops: Animation.Infinite
+//                    }
+//                }
+//            }
+//        }
 
         Tab {
             title: "Widget"

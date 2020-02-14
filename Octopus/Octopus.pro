@@ -8,6 +8,7 @@ RC_ICONS = resource/octopus.ico
 
 SOURCES += \
         src/cmdreceiver.cpp \
+        src/debugger.cpp \
 	src/main.cpp \
         src/imageprovider.cpp \
         src/paraminterface.cpp \
@@ -38,7 +39,8 @@ HEADERS += \
     include/viewerinterface.hpp \
     include/glitem.h \
     include/udpreceiver.h \
-    include/cmdreceiver.h
+    include/cmdreceiver.h \
+    include/debugger.h \
 
 INCLUDEPATH += include
 
