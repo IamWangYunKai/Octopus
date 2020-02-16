@@ -52,9 +52,10 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
     else{
         auto pixmap = QPixmap::fromImage(image);
         QPainter painter(&pixmap);
-        Debugger::box(painter, QRectF(120, 150, 200, 300), "This is human !", Qt::magenta);
-        Debugger::rect(painter, QRectF(350, 150, 100, 50), Qt::green);
-        Debugger::centerBox(painter, QPointF(500, 300), 200, 80, "debug message", Qt::yellow);
+//        Debugger::box(painter, QRectF(120, 150, 200, 300), "This is human !", Qt::magenta);
+//        Debugger::rect(painter, QRectF(350, 150, 100, 50), Qt::green);
+//        Debugger::centerBox(painter, QPointF(500, 300), 200, 80, "debug message", Qt::yellow);
+        DebugEngine::instance()->drawAll(painter);
         return pixmap;
     }
 }

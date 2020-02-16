@@ -1,6 +1,63 @@
 #include "debugger.h"
+#include <QDebug>
+#include "parammanager.h"
+
+namespace {
+    const int PORT_RECEIVE = 23335;
+    const QString BOARDCAST_ADDRESS = "233.233.233.233";
+}
 
 Debugger::Debugger(){
+    bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
+    if (ret) start();
+    else qDebug() << "Bind Error in CmdReceiver !";
+}
+
+void Debugger::parseData(QByteArray receivedData){
+    QJsonParseError jsonError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(receivedData, &jsonError);
+//    qDebug() << receivedData << jsonError.errorString();
+    QJsonObject jsonObject = jsonDoc.object();
+    mutex.lock();
+    jsonObjects.clear();
+    foreach(const QJsonValue &value, jsonObject) {
+        QJsonDocument doc = QJsonDocument::fromJson(value.toString().toUtf8());
+        QJsonObject obj = doc.object();
+        jsonObjects.push_back(obj);
+    }
+    mutex.unlock();
+}
+
+void Debugger::drawAll(QPainter &painter){
+    mutex.lock();
+    foreach(const QJsonObject &jsonObject, jsonObjects) {
+        QString dtype = jsonObject.value("dtype").toString();
+        if(dtype == QString("box")){
+            double lt_x = jsonObject.value("lt_x").toDouble();
+            double lt_y = jsonObject.value("lt_y").toDouble();
+            double width = jsonObject.value("width").toDouble();
+            double height = jsonObject.value("height").toDouble();
+            QString message = jsonObject.value("message").toString();
+            QString color = jsonObject.value("color").toString();
+            box(painter, QRectF(lt_x, lt_y, width, height), message, Qt::magenta);
+        }
+        else if(dtype == QString("center_box")){
+            qDebug() << "center_box";
+        }
+        else if(dtype == QString("line")){
+            qDebug() << "line";
+        }
+        else{
+            qDebug() << "Unknow debug message type" << dtype;
+        }
+    }
+    mutex.unlock();
+}
+
+void Debugger::clearAll(){
+    mutex.lock();
+    jsonObjects.clear();
+    mutex.unlock();
 }
 
 void Debugger::line(QPainter &painter, const QLine &line, const QColor &color){
@@ -59,3 +116,4 @@ QColor Debugger::adaptColor(const QColor &color){
         return Qt::white;
     else return Qt::black;
 }
+

@@ -1,5 +1,6 @@
 #ifndef PARAMMANAGER_H
 #define PARAMMANAGER_H
+
 #include <QSettings>
 #include <QDebug>
 #include "singleton.hpp"

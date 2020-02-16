@@ -1,6 +1,6 @@
 #include "cmdreceiver.h"
-#include<QJsonObject>
-#include<QJsonDocument>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include "parammanager.h"
 
 namespace {
