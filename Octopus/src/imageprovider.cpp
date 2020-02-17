@@ -60,7 +60,7 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
     }
 }
 
-void ImageProvider::parseData(QByteArray receivedData){
+void ImageProvider::parseData(const QByteArray &receivedData){
     auto package_remain = receivedData.mid(0, 8).toInt();
     auto data_length = receivedData.mid(8, 8).toInt();
     qint64 timestamp = static_cast<qint64>(receivedData.mid(16, 16).toLongLong());

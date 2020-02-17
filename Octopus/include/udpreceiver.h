@@ -13,7 +13,7 @@ public:
     void start();
     QHostAddress getHostAddress(){return hostAddress;}
 private:
-    virtual void parseData(QByteArray receivedData){}
+    virtual void parseData(const QByteArray &receivedData){}
     QUdpSocket receiveSocket;
     std::thread* receiveThread = nullptr;
     QHostAddress hostAddress;

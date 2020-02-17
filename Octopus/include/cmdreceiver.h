@@ -12,7 +12,7 @@ public:
     double getW(){return w;}
     bool getC(){return c;}
 private:
-    virtual void parseData(QByteArray receivedData);
+    virtual void parseData(const QByteArray &receivedData);
     QMutex mutex;
     double v = 0;
     double w = 0;

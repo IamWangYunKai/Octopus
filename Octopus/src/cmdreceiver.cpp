@@ -18,7 +18,7 @@ CmdReceiver::CmdReceiver(){
     else qDebug() << "Bind Error in CmdReceiver !";
 }
 
-void CmdReceiver::parseData(QByteArray receivedData){
+void CmdReceiver::parseData(const QByteArray &receivedData){
     QJsonParseError jsonError;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(receivedData, &jsonError);
 //    qDebug() << receivedData << jsonError.errorString();

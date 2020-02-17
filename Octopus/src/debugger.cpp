@@ -13,7 +13,7 @@ Debugger::Debugger(){
     else qDebug() << "Bind Error in CmdReceiver !";
 }
 
-void Debugger::parseData(QByteArray receivedData){
+void Debugger::parseData(const QByteArray &receivedData){
     QJsonParseError jsonError;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(receivedData, &jsonError);
 //    qDebug() << receivedData << jsonError.errorString();
@@ -38,14 +38,28 @@ void Debugger::drawAll(QPainter &painter){
             double width = jsonObject.value("width").toDouble();
             double height = jsonObject.value("height").toDouble();
             QString message = jsonObject.value("message").toString();
-            QString color = jsonObject.value("color").toString();
-            box(painter, QRectF(lt_x, lt_y, width, height), message, Qt::magenta);
+            QString colorString = jsonObject.value("color").toString();
+            QColor color = getColor(colorString);
+            box(painter, QRectF(lt_x, lt_y, width, height), message, color);
         }
         else if(dtype == QString("center_box")){
-            qDebug() << "center_box";
+            double ct_x = jsonObject.value("ct_x").toDouble();
+            double ct_y = jsonObject.value("ct_y").toDouble();
+            double width = jsonObject.value("width").toDouble();
+            double height = jsonObject.value("height").toDouble();
+            QString message = jsonObject.value("message").toString();
+            QString colorString = jsonObject.value("color").toString();
+            QColor color = getColor(colorString);
+            centerBox(painter, QPointF(ct_x, ct_y), width, height, message, color);
         }
         else if(dtype == QString("line")){
-            qDebug() << "line";
+            double s_x = jsonObject.value("s_x").toDouble();
+            double s_y = jsonObject.value("s_y").toDouble();
+            double e_x = jsonObject.value("e_x").toDouble();
+            double e_y = jsonObject.value("e_y").toDouble();
+            QString colorString = jsonObject.value("color").toString();
+            QColor color = getColor(colorString);
+            line(painter, QPointF(s_x, s_y), QPointF(e_x, e_y), color);
         }
         else{
             qDebug() << "Unknow debug message type" << dtype;
@@ -60,7 +74,7 @@ void Debugger::clearAll(){
     mutex.unlock();
 }
 
-void Debugger::line(QPainter &painter, const QLine &line, const QColor &color){
+void Debugger::line(QPainter &painter, const QLineF &line, const QColor &color){
     if(color != Qt::color0){
         painter.setPen(QPen(color, 1));
     }
@@ -70,7 +84,7 @@ void Debugger::line(QPainter &painter, const QLine &line, const QColor &color){
     painter.drawLine(line);
 }
 
-void Debugger::line(QPainter &painter, const QPoint &p1, const QPoint &p2, const QColor &color){
+void Debugger::line(QPainter &painter, const QPointF &p1, const QPointF &p2, const QColor &color){
     if(color != Qt::color0){
         painter.setPen(QPen(color, 1));
     }
@@ -117,3 +131,23 @@ QColor Debugger::adaptColor(const QColor &color){
     else return Qt::black;
 }
 
+QColor Debugger::getColor(const QString &colorString){
+    if (colorString == QString("black")) return Qt::black;
+    else if (colorString == QString("white")) return Qt::white;
+    else if (colorString == QString("darkGray")) return Qt::darkGray;
+    else if (colorString == QString("gray")) return Qt::gray;
+    else if (colorString == QString("lightGray")) return Qt::lightGray;
+    else if (colorString == QString("red")) return Qt::red;
+    else if (colorString == QString("green")) return Qt::green;
+    else if (colorString == QString("blue")) return Qt::blue;
+    else if (colorString == QString("cyan")) return Qt::cyan;
+    else if (colorString == QString("magenta")) return Qt::magenta;
+    else if (colorString == QString("yellow")) return Qt::yellow;
+    else if (colorString == QString("darkRed")) return Qt::darkRed;
+    else if (colorString == QString("darkGreen")) return Qt::darkGreen;
+    else if (colorString == QString("darkBlue")) return Qt::darkBlue;
+    else if (colorString == QString("darkCyan")) return Qt::darkCyan;
+    else if (colorString == QString("darkMagenta")) return Qt::darkMagenta;
+    else if (colorString == QString("darkYellow")) return Qt::darkYellow;
+    else return Qt::red;
+}

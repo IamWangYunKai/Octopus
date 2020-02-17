@@ -13,7 +13,7 @@ public:
     QPixmap getDefaultImg();
 
 private:
-    virtual void parseData(QByteArray receivedData);
+    virtual void parseData(const QByteArray &receivedData);
     QImage image;
     QByteArray image_data;
     int expect_package_num = -1;
