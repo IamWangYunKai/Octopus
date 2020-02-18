@@ -50,7 +50,7 @@ Window {
     }
     Timer {
         id: frame_timer
-        interval: 16
+        interval: 17
         repeat: true
         running: true
         onTriggered: {

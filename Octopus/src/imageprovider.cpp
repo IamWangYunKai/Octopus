@@ -10,8 +10,8 @@
 #include "debugger.h"
 
 namespace {
-    int width = 1024;
-    int height = 576;
+    int width = 1280;
+    int height = 720;
     const int PORT_RECEIVE = 23333;
     const QString BOARDCAST_ADDRESS = "233.233.233.233";
     bool isTest = false;
@@ -19,8 +19,8 @@ namespace {
 
 ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap){
     ParamManager::instance()->loadParam(isTest, "Test/isTest", false);
-    ParamManager::instance()->loadParam(width, "Camera/width", 1024);
-    ParamManager::instance()->loadParam(height, "Camera/height", 576);
+    ParamManager::instance()->loadParam(width, "Camera/width", 1280);
+    ParamManager::instance()->loadParam(height, "Camera/height", 720);
     QPixmap pixmap(width, height);
     pixmap.fill(QColor(255, 255, 255).rgba());
     image = pixmap.toImage().convertToFormat(QImage::Format_RGB32);
@@ -52,9 +52,6 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
     else{
         auto pixmap = QPixmap::fromImage(image);
         QPainter painter(&pixmap);
-//        Debugger::box(painter, QRectF(120, 150, 200, 300), "This is human !", Qt::magenta);
-//        Debugger::rect(painter, QRectF(350, 150, 100, 50), Qt::green);
-//        Debugger::centerBox(painter, QPointF(500, 300), 200, 80, "debug message", Qt::yellow);
         DebugEngine::instance()->drawAll(painter);
         return pixmap;
     }

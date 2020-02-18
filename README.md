@@ -21,6 +21,17 @@ python send.py
 * Multicast address: 233.233.233.233
 * Port: 23333
 
+### Draw Debug Message
+* Install **[informer](https://github.com/IamWangYunKai/informer)**, and see [examples](https://github.com/IamWangYunKai/informer/tree/master/examples)
+```bash
+pip install informer
+```
+![](./doc/debug.png)
+
+### Render the Dashboard to Display Robot Commands
+* See [examples](https://github.com/IamWangYunKai/informer/tree/master/examples) in **[informer](https://github.com/IamWangYunKai/informer)**
+![](./doc/dashboard.png)
+
 #### OpenGL Render
 * Render 3D objects (point cloud for example) in a high performance way
 * See glitem.h/cpp
@@ -47,6 +58,11 @@ ParamManager::instance()->loadParam(param_name, "Visualization String", value);
 #### Android
 * You can install JDK, Android SDK & NDK, Qt Android, and deploy this app on Android device
 ![](./doc/android.png)
+
+# TODO
+- [ ] Multi-machine clock synchronization
+- [ ] Point cloud rendering
+- [ ] Other demands
 
 # License
 MIT License

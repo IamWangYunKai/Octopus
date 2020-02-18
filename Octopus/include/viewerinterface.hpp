@@ -14,7 +14,7 @@ public:
     explicit ViewerInterface(QObject *parent = Q_NULLPTR){
         timer = new QTimer(this);
         QObject::connect(timer, SIGNAL(timeout()), this, SLOT(changeRobotInfo()));
-        timer->start(16);
+        timer->start(17);
     }
     enum Roles {
         robotID = Qt::UserRole + 1,
