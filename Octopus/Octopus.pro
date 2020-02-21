@@ -7,6 +7,7 @@ DESTDIR = $$PWD/../bin
 RC_ICONS = resource/octopus.ico
 
 SOURCES += \
+        src/clocsync.cpp \
         src/cmdreceiver.cpp \
         src/debugger.cpp \
 	src/main.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     include/udpreceiver.h \
     include/cmdreceiver.h \
     include/debugger.h \
+    include/clocsync.h
 
 INCLUDEPATH += include
 

@@ -104,7 +104,7 @@ CircularGaugeStyle {
             anchors.horizontalCenter: parent.horizontalCenter
         }
         Text {
-            text: "Yaw(rad/s)"
+            text: "Steer(rad/s)"
             color: "white"
             font.pixelSize: tachometerStyle.toPixels(0.1)
             anchors.top: rpmText.bottom

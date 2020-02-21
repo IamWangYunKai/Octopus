@@ -10,7 +10,7 @@ namespace {
 Debugger::Debugger(){
     bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
     if (ret) start();
-    else qDebug() << "Bind Error in CmdReceiver !";
+    else qDebug() << "Bind Error in Debugger !";
 }
 
 void Debugger::parseData(const QByteArray &receivedData){
