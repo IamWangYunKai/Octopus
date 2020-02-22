@@ -76,7 +76,7 @@ void ImageProvider::parseData(const QByteArray &receivedData){
         if(data_length == image_data.length()){
             qint64 current = QDateTime::currentMSecsSinceEpoch();
             qint64 timeBias = GlobalData::instance()->getSyncBias();
-            qint64 latency = current + (timeBias - timestamp)/1000;
+            qint64 latency = current - (timeBias + timestamp)/1000;
             GlobalData::instance()->setLatency(latency);
             GlobalData::instance()->countFPS();
 //            qDebug() << "latency:" << latency << "ms";

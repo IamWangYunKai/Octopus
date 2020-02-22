@@ -13,8 +13,8 @@ public:
     void countFPS();
     void setStop(const bool &flag);
     bool getStop();
-    void setSyncBias(const qint64 &timeBias);
-    qint64 getSyncBias();
+    void setSyncBias(const qint64 &timeBias); // nanoseconds
+    qint64 getSyncBias(); // nanoseconds
 private:
     QMutex mutex;
     int fps = 0;

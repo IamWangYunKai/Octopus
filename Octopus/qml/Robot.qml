@@ -21,7 +21,6 @@ Grid{
         height: parent.height - parent.topPadding;
         radius: height/4;
         color : root.team ? "#f0ad4e" : "#337ab7";
-//        source:number == -1 ? "/robot/z.png" : ("/robot/" + root.color + root.number + ".png");
         Text{
             anchors.verticalCenter: parent.verticalCenter;
             anchors.horizontalCenter: parent.horizontalCenter;
