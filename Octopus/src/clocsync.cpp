@@ -35,15 +35,17 @@ void ClocSync::parseData(const QByteArray &receivedData){
         last_local_tsp = local_timestamp;
     }
     else{
-        qint64 dt = (2*last_local_tsp - last_remote_tsp - remote_timestamp)/2;
-        quint64 timeBias = static_cast<qint64>(dt/1000);
+        qint64 timeBias = (2*last_local_tsp - last_remote_tsp - remote_timestamp)/2;
         last_remote_tsp = remote_timestamp;
         last_local_tsp = local_timestamp;
 
         qint64 old_tb = GlobalData::instance()->getSyncBias();
-        qint64 new_tb = static_cast<qint64>(old_tb*(1 - UPDATE_RATE) + timeBias*timeBias);
-//        qDebug() << "timeBias" << timeBias << new_tb;
-        GlobalData::instance()->setSyncBias(new_tb);
+        if (old_tb == 0) GlobalData::instance()->setSyncBias(timeBias);
+        else{
+            qint64 new_tb = static_cast<qint64>(old_tb*(1 - UPDATE_RATE) + timeBias*UPDATE_RATE);
+//            qDebug() << "timeBias" << timeBias << new_tb;
+            GlobalData::instance()->setSyncBias(new_tb);
+        }
     }
     if (number > 0){
         sendPackage(number--);
