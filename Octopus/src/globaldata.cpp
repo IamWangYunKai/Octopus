@@ -3,7 +3,7 @@
 CGlobalData::CGlobalData(){
 }
 
-void CGlobalData::setLatency(qint64 latency){
+void CGlobalData::setLatency(const qint64 &latency){
     mutex.lock();
     this->latency = latency;
     mutex.unlock();
@@ -30,7 +30,7 @@ void CGlobalData::countFPS(){
     mutex.unlock();
 }
 
-void CGlobalData::setStop(bool flag){
+void CGlobalData::setStop(const bool &flag){
     mutex.lock();
     this->stopFlag = flag;
     mutex.unlock();
@@ -41,4 +41,17 @@ bool CGlobalData::getStop(){
     auto flag = this->stopFlag;
     mutex.unlock();
     return flag;
+}
+
+void CGlobalData::setSyncBias(const qint64 &timeBias){
+    mutex.lock();
+    syncBias = timeBias;
+    mutex.unlock();
+}
+
+qint64 CGlobalData::getSyncBias(){
+    mutex.lock();
+    auto timeBias = syncBias;
+    mutex.unlock();
+    return timeBias;
 }

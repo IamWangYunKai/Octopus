@@ -7,17 +7,20 @@
 class CGlobalData{
 public:
     CGlobalData();
-    void setLatency(qint64 latency);
+    void setLatency(const qint64 &latency);
     qint64 getLatency();
     int getFPS(); //get FPS every second, and clear it
     void countFPS();
-    void setStop(bool flag);
+    void setStop(const bool &flag);
     bool getStop();
+    void setSyncBias(const qint64 &timeBias);
+    qint64 getSyncBias();
 private:
     QMutex mutex;
     int fps = 0;
     qint64 latency = -9999;
     bool stopFlag = false;
+    qint64 syncBias = 0;
 };
 typedef Singleton<CGlobalData> GlobalData;
 #endif // GLOBALDATA_H

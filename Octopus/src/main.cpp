@@ -11,12 +11,14 @@
 #include "glitem.h"
 #include "cmdreceiver.h"
 #include "debugger.h"
+#include "clocsync.h"
 
 void initSetup(){
     GlobalData::instance();
     ParamManager::instance();
     CommandReceiver::instance();
     DebugEngine::instance();
+    Sync::instance();
     qmlRegisterType<Interaction>("BackEndInterface", 1, 0, "Interaction");
     qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
     qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
