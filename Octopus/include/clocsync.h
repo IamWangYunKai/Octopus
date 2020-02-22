@@ -15,5 +15,5 @@ private:
     QMutex mutex;
     QUdpSocket sendSocket;
 };
-typedef Singleton<ClocSync> Sync;
+typedef Singleton<ClocSync> SyncCloc;
 #endif // CLOCSYNC_H

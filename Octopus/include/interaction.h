@@ -9,10 +9,11 @@ class Interaction : public QObject {
 public:
     explicit Interaction(QObject *parent = nullptr);
     Q_INVOKABLE int getLatency();
-    Q_INVOKABLE void setStop(bool stopFlag);
+    Q_INVOKABLE void setStop(const bool &stopFlag);
     Q_INVOKABLE int getFPS();
     Q_INVOKABLE double getV();
     Q_INVOKABLE double getW();
+    Q_INVOKABLE void syncCloc(const int &n);
 private:
     QMutex mutex;
 };

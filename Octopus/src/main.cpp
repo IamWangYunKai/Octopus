@@ -13,17 +13,19 @@
 #include "debugger.h"
 #include "clocsync.h"
 
-void initSetup(){
-    GlobalData::instance();
-    ParamManager::instance();
-    CommandReceiver::instance();
-    DebugEngine::instance();
-    Sync::instance();
-    qmlRegisterType<Interaction>("BackEndInterface", 1, 0, "Interaction");
-    qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
-    qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
-    qmlRegisterType<ViewerInterface>("BackEndInterface", 1, 0, "ViewerInterface");
-    qmlRegisterType<GLItem>("BackEndInterface", 1, 0, "GLItem" );
+namespace  {
+    void initSetup(){
+        GlobalData::instance();
+        ParamManager::instance();
+        CommandReceiver::instance();
+        DebugEngine::instance();
+        SyncCloc::instance();
+        qmlRegisterType<Interaction>("BackEndInterface", 1, 0, "Interaction");
+        qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
+        qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
+        qmlRegisterType<ViewerInterface>("BackEndInterface", 1, 0, "ViewerInterface");
+        qmlRegisterType<GLItem>("BackEndInterface", 1, 0, "GLItem" );
+    }
 }
 
 int main(int argc, char *argv[]){

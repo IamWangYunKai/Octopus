@@ -33,6 +33,7 @@ Window {
         onTriggered: {
             fps = interaction.getFPS()
             latency = interaction.getLatency()
+            interaction.syncCloc(10)
             if(stopFlag){
                 fps_writer.text = "STOP"
                 latency_writer.text = "STOP"

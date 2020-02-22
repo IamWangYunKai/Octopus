@@ -55,12 +55,15 @@ ParamManager::instance()->loadParam(param_name, "Visualization String", value);
 * Press 'R' to reload all parameters from the local file
 ![](./doc/settings.png)
 
+#### Clock Synchronization
+When using **[informer](https://github.com/IamWangYunKai/informer)**, there is an auto-running thread for synchronizing clock by using a protocol like the Network Time Protocol(NTP). Octopus will synchronize clock every second (even if not necessary). See clocsync.h/cpp.
+
 #### Android
 * You can install JDK, Android SDK & NDK, Qt Android, and deploy this app on Android device
 ![](./doc/android.png)
 
 # TODO
-- [ ] Multi-machine clock synchronization
+- [x] Multi-machine clock synchronization
 - [ ] Point cloud rendering
 - [ ] Other demands
 
