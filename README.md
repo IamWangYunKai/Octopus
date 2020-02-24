@@ -38,7 +38,7 @@ pip install informer
 ![](./doc/opengl.png)
 
 #### Widget Render
-* Old but traditional way to draw something
+* Old and traditional way to draw something
 * See widgetosritem.h/cpp
 ![](./doc/widget.png)
 
@@ -47,7 +47,7 @@ pip install informer
 ![](./doc/viewer.png)
 
 #### Parameters Visualization
-* You can modify and save it on the interface, but parameters will only be loaded when calling:
+* You can modify and save parameters on the interface, but they will only be loaded when you calling:
 ```c++
 ParamManager::instance()->loadParam(param_name, "Visualization String", value);
 ```

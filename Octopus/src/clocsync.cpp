@@ -2,11 +2,12 @@
 #include <QDebug>
 #include <QTime>
 #include "globaldata.h"
+#include "parammanager.h"
 
 namespace {
-    const int PORT_RECEIVE = 23336;
-    const int PORT_SEND = 23337;
-    const QString BOARDCAST_ADDRESS = "233.233.233.233";
+    int PORT_RECEIVE = 23336;
+    int PORT_SEND = 23337;
+    QString BOARDCAST_ADDRESS = "233.233.233.233";
     const int SYNC_PACKAGE_NUM = 10;
     qint64 last_remote_tsp = 0;
     qint64 last_local_tsp = 0;
@@ -14,6 +15,10 @@ namespace {
 }
 
 ClocSync::ClocSync(){
+    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
+    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/sync_receive", 23336);
+    ParamManager::instance()->loadParam(PORT_SEND, "Network/sync_send", 23337);
+
     bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
     if (ret) start();
     else qDebug() << "Bind Error in ClocSync !";

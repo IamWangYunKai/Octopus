@@ -12,8 +12,8 @@
 namespace {
     int width = 1280;
     int height = 720;
-    const int PORT_RECEIVE = 23333;
-    const QString BOARDCAST_ADDRESS = "233.233.233.233";
+    int PORT_RECEIVE = 23333;
+    QString BOARDCAST_ADDRESS = "233.233.233.233";
     bool isTest = false;
 }
 
@@ -21,6 +21,9 @@ ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap){
     ParamManager::instance()->loadParam(isTest, "Test/isTest", false);
     ParamManager::instance()->loadParam(width, "Camera/width", 1280);
     ParamManager::instance()->loadParam(height, "Camera/height", 720);
+    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/vision_port", 23333);
+    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
+
     QPixmap pixmap(width, height);
     pixmap.fill(QColor(255, 255, 255).rgba());
     image = pixmap.toImage().convertToFormat(QImage::Format_RGB32);

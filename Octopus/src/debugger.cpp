@@ -3,11 +3,14 @@
 #include "parammanager.h"
 
 namespace {
-    const int PORT_RECEIVE = 23335;
-    const QString BOARDCAST_ADDRESS = "233.233.233.233";
+    int PORT_RECEIVE = 23335;
+    QString BOARDCAST_ADDRESS = "233.233.233.233";
 }
 
 Debugger::Debugger(){
+    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
+    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/debug_port", 23335);
+
     bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
     if (ret) start();
     else qDebug() << "Bind Error in Debugger !";
