@@ -1,4 +1,4 @@
-QT += core quick widgets  opengl
+QT += core quick widgets opengl datavisualization
 CONFIG += c++14
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -19,7 +19,8 @@ SOURCES += \
         src/widgetosritem.cpp \
         src/globaldata.cpp \
         src/interaction.cpp \
-        src/glitem.cpp
+        src/glitem.cpp \
+        src/squircle.cpp
 
 RESOURCES += qml.qrc \
              shader.qrc
@@ -42,7 +43,8 @@ HEADERS += \
     include/udpreceiver.h \
     include/cmdreceiver.h \
     include/debugger.h \
-    include/clocsync.h
+    include/clocsync.h \
+    include/squircle.h
 
 INCLUDEPATH += include
 
