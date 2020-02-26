@@ -10,7 +10,6 @@ import QtQuick.Extras 1.4
 import BackEndInterface 1.0
 
 import QtDataVisualization 1.2
-import OpenGLUnderQML 1.0
 
 Window {
     id:root
@@ -200,7 +199,7 @@ Window {
         }
         Tab {
             title: "Test"
-            Squircle {
+            GLItem {
                 SequentialAnimation on t {
                     NumberAnimation { to: 1; duration: 2500; easing.type: Easing.InQuad }
                     NumberAnimation { to: 0; duration: 2500; easing.type: Easing.OutQuad }
@@ -209,67 +208,6 @@ Window {
                 }
             }
         }
-
-//        Tab {
-//            title: "3D"
-//            Rectangle {
-//                width:parent.width
-//                height:parent.height
-
-//                Scatter3D {
-//                      width: parent.width
-//                      height: parent.height
-//                      Scatter3DSeries {
-//                          ItemModelScatterDataProxy {
-//                              itemModel: dataModel
-//                              // Mapping model roles to scatter series item coordinates.
-//                              xPosRole: "xPos"
-//                              yPosRole: "yPos"
-//                              zPosRole: "zPos"
-//                          }
-//                      }
-//                  }
-
-//                  ListModel {
-//                      id: dataModel
-//                      ListElement{ xPos: "2.754"; yPos: "1.455"; zPos: "3.362"; }
-//                      ListElement{ xPos: "3.164"; yPos: "2.022"; zPos: "4.348"; }
-//                      ListElement{ xPos: "4.564"; yPos: "1.865"; zPos: "1.346"; }
-//                      ListElement{ xPos: "1.068"; yPos: "1.224"; zPos: "2.983"; }
-//                      ListElement{ xPos: "2.323"; yPos: "2.502"; zPos: "3.133"; }
-//                  }
-//              }
-//        }
-//        Tab {
-//            title: "OpenGL"
-//            Rectangle{
-//                width:parent.width//400
-//                height:parent.height//400
-//                GLItem {
-//                    id: cube
-//                    anchors.centerIn: parent
-//                    ParallelAnimation {
-//                        running: true
-//                        NumberAnimation {
-//                            target: cube
-//                            property: "rotateAngle"
-//                            from: 0
-//                            to: 360
-//                            duration: 5000
-//                        }
-
-//                        Vector3dAnimation {
-//                            target: cube
-//                            property: "axis"
-//                            from: Qt.vector3d( 0, 1, 0 )
-//                            to: Qt.vector3d( 1, 0, 0 )
-//                            duration: 5000
-//                        }
-//                        loops: Animation.Infinite
-//                    }
-//                }
-//            }
-//        }
 
         Tab {
             title: "Widget"

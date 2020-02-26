@@ -1,51 +1,65 @@
 #ifndef GLITEM_H
 #define GLITEM_H
 
-#include <QVector3D>
-#include <QMatrix4x4>
-#include <QOpenGLFunctions>
-#include <QOpenGLExtraFunctions>
-#include <QOpenGLBuffer>
-#include <QOpenGLShaderProgram>
-#include <QQuickItem>
-#include <QQuickWindow>
+#include <QtQuick/QQuickItem>
+#include <QtGui/QOpenGLShaderProgram>
+#include <QtGui/QOpenGLFunctions>
+#include <QtCore/QRunnable>
 
-#define DECLRARE_Q_PROPERTY( aType, aProperty ) protected:\
-    aType m_ ## aProperty; public:\
-    aType aProperty( void ) { return m_ ## aProperty; } \
-    void set ## aProperty( aType _ ## aProperty ) {\
-        m_ ## aProperty = _ ## aProperty;\
-        if ( window( ) != Q_NULLPTR ) {\
-            window( )->update( );\
-        }\
-    }
-
-class GLItem: public QQuickItem{
+class GLRenderer : public QObject, protected QOpenGLFunctions{
     Q_OBJECT
-    Q_PROPERTY( qreal rotateAngle READ RotateAngle
-                WRITE setRotateAngle NOTIFY RotateAngleChanged )
-    Q_PROPERTY( QVector3D axis READ Axis
-                WRITE setAxis NOTIFY AxisChanged )
 public:
-    explicit GLItem();
+    GLRenderer() : m_t(0), m_program(0) { }
+    ~GLRenderer();
+
+    void setT(qreal t) { m_t = t; }
+    void setViewportSize(const QSize &size) { m_viewportSize = size; }
+    void setWindow(QQuickWindow *window) { m_window = window; }
+
+public slots:
+    void init();
+    void paint();
+
+private:
+    QSize m_viewportSize;
+    qreal m_t;
+    QOpenGLShaderProgram *m_program;
+    QQuickWindow *m_window;
+};
+
+class GLItem : public QQuickItem{
+    Q_OBJECT
+    Q_PROPERTY(qreal t READ t WRITE setT NOTIFY tChanged)
+
+public:
+    GLItem();
+
+    qreal t() const { return m_t; }
+    void setT(qreal t);
+
 signals:
-    void RotateAngleChanged();
-    void AxisChanged();
-protected slots:
-    void Render();
-    void OnWindowChanged(QQuickWindow* pWindow);
-    void Release();
-protected:
-    bool RunOnce();
+    void tChanged();
 
-    QMatrix4x4                  m_ModelViewMatrix;
-    QMatrix4x4                  m_ProjectionMatrix;
-    QOpenGLBuffer               m_VertexBuffer, m_IndexBuffer;
-    QOpenGLBuffer               m_ColorBuffer;
-    QOpenGLShaderProgram        m_ShaderProgram;
+public slots:
+    void sync();
+    void cleanup();
 
-    DECLRARE_Q_PROPERTY( qreal, RotateAngle )
-    DECLRARE_Q_PROPERTY( QVector3D, Axis )
+private slots:
+    void handleWindowChanged(QQuickWindow *win);
+
+private:
+    void releaseResources() override;
+
+    qreal m_t;
+    GLRenderer *m_renderer;
+};
+
+class CleanupJob : public QRunnable{
+public:
+    CleanupJob(GLRenderer *renderer) : m_renderer(renderer) { }
+    void run() override { delete m_renderer; }
+private:
+    GLRenderer *m_renderer;
 };
 
 #endif // GLITEM_H

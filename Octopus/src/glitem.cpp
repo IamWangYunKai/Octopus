@@ -1,141 +1,152 @@
 #include "glitem.h"
+#include <QtQuick/qquickwindow.h>
+#include <QtGui/QOpenGLShaderProgram>
+#include <QtGui/QOpenGLContext>
+#include <QRandomGenerator>
 
-GLItem::GLItem():
-    m_VertexBuffer( QOpenGLBuffer::VertexBuffer ),
-    m_IndexBuffer( QOpenGLBuffer::IndexBuffer ),
-    m_ColorBuffer( QOpenGLBuffer::VertexBuffer ),
-    m_RotateAngle( 0.0f ),
-    m_Axis( 1.0f, 1.0f, 0.0f ){
-    connect( this, SIGNAL( windowChanged( QQuickWindow* ) ),
-             this, SLOT( OnWindowChanged( QQuickWindow* ) ) );
+namespace {
+    QRandomGenerator grandom;
+
+    GLuint colorUniformLoc;
+    GLuint vertexAttribLoc;
+    GLuint mvpMatrixUniLoc;
+//    QVector<GLfloat> vertices;
 }
 
-void GLItem::OnWindowChanged( QQuickWindow* pWindow ){
-    if ( pWindow == Q_NULLPTR ) return;
-    connect( pWindow, SIGNAL( beforeRendering( ) ),
-             this, SLOT( Render( ) ), Qt::DirectConnection );
-    pWindow->setClearBeforeRendering( false );
+GLItem::GLItem()
+    : m_t(0)
+    , m_renderer(nullptr){
+    connect(this, &QQuickItem::windowChanged, this, &GLItem::handleWindowChanged);
 }
 
-void GLItem::Render(){
-    static bool runOnce = RunOnce( );
-    Q_UNUSED( runOnce );
-
-    m_ModelViewMatrix.setToIdentity( );
-    m_ModelViewMatrix.translate( 0.0f, 0.0f, -60.0f );
-    m_ModelViewMatrix.rotate( m_RotateAngle, m_Axis.x( ),
-                              m_Axis.y( ), m_Axis.z( ) );
-
-    QOpenGLFunctions glFuncs(QOpenGLContext::currentContext());
-
-    glFuncs.glViewport( 0, 0, window( )->width( ), window( )->height( ) );
-    glFuncs.glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-    glFuncs.glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    glFuncs.glEnable( GL_DEPTH_TEST );
-    glFuncs.glEnable( GL_CULL_FACE );
-    glFuncs.glFrontFace( GL_CW );
-
-    m_ShaderProgram.bind( );
-    m_VertexBuffer.bind( );
-    int posLoc = m_ShaderProgram.attributeLocation( "position" );
-    m_ShaderProgram.enableAttributeArray( posLoc );
-    m_ShaderProgram.setAttributeBuffer( posLoc,
-                                        GL_FLOAT,
-                                        0,
-                                        3,
-                                        0 );
-
-    m_ColorBuffer.bind( );
-    int colorLoc = m_ShaderProgram.attributeLocation( "color" );
-    m_ShaderProgram.enableAttributeArray( colorLoc );
-    m_ShaderProgram.setAttributeBuffer( colorLoc,
-                                        GL_FLOAT,
-                                        0,
-                                        4,
-                                        0 );
-    m_IndexBuffer.bind( );
-    m_ShaderProgram.setUniformValue( "modelViewMatrix", m_ModelViewMatrix );
-    m_ShaderProgram.setUniformValue( "projectionMatrix", m_ProjectionMatrix );
-    glFuncs.glDrawElements( GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, Q_NULLPTR );
-
-    m_ShaderProgram.disableAttributeArray( posLoc );
-    m_ShaderProgram.disableAttributeArray( colorLoc );
-    m_IndexBuffer.release( );
-    m_VertexBuffer.release( );
-    m_ShaderProgram.release( );
+void GLItem::setT(qreal t){
+    if (t == m_t) return;
+    m_t = t;
+    emit tChanged();
+    if (window())
+        window()->update();
 }
 
-bool GLItem::RunOnce(){
-    m_ShaderProgram.addShaderFromSourceFile( QOpenGLShader::Vertex,
-                                             ":/shader/Shader.vsh" );
-    m_ShaderProgram.addShaderFromSourceFile( QOpenGLShader::Fragment,
-                                             ":/shader/Shader.fsh" );
-    m_ShaderProgram.link();
-
-    const GLfloat length = 10.0f;
-    const GLfloat vertices[] = {
-        length, -length, length,
-        length, -length, -length,
-        -length, -length, -length,
-        -length, -length, length,
-        length, length, length,
-        length, length, -length,
-        -length, length, -length,
-        -length, length, length
-    };
-
-    m_VertexBuffer.setUsagePattern( QOpenGLBuffer::StaticDraw );
-    m_VertexBuffer.create( );
-    m_VertexBuffer.bind( );
-    m_VertexBuffer.allocate( vertices, sizeof( vertices ) );
-
-    const GLfloat colors[] = {
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f
-    };
-    m_ColorBuffer.setUsagePattern( QOpenGLBuffer::StaticDraw );
-    m_ColorBuffer.create( );
-    m_ColorBuffer.bind( );
-    m_ColorBuffer.allocate( colors, sizeof( colors ) );
-
-
-    GLubyte indices[] = {
-        0, 1, 2, 0, 2, 3,// down
-        7, 6, 4, 6, 5, 4,// up
-        7, 4, 3, 4, 0, 3,// left
-        5, 6, 1, 6, 2, 1,// right
-        4, 5, 0, 5, 1, 0,// front
-        3, 2, 6, 3, 6, 7,// back
-    };
-
-    m_IndexBuffer.setUsagePattern( QOpenGLBuffer::StaticDraw );
-    m_IndexBuffer.create( );
-    m_IndexBuffer.bind( );
-    m_IndexBuffer.allocate( indices, sizeof( indices ) );
-
-    float aspectRatio  = float( window( )->width( ) ) / float( window( )->height( ) );
-    m_ProjectionMatrix.perspective( 45.0f,
-                                    aspectRatio,
-                                    0.5f,
-                                    500.0f );
-
-    connect( window( )->openglContext( ),
-             SIGNAL( aboutToBeDestroyed( ) ),
-             this, SLOT( Release( ) ),
-             Qt::DirectConnection );
-
-    return true;
+void GLItem::handleWindowChanged(QQuickWindow *win){
+    if (win) {
+        connect(win, &QQuickWindow::beforeSynchronizing, this, &GLItem::sync, Qt::DirectConnection);
+        connect(win, &QQuickWindow::sceneGraphInvalidated, this, &GLItem::cleanup, Qt::DirectConnection);
+        // Ensure we start with cleared to black. The squircle's blend mode relies on this.
+        win->setColor(Qt::black);
+    }
 }
 
-void GLItem::Release( ){
-//    qDebug( "Vertex buffer and index buffer are to be destoryed." );
-    m_VertexBuffer.destroy( );
-    m_IndexBuffer.destroy( );
-    m_ColorBuffer.destroy( );
+void GLItem::cleanup(){
+    delete m_renderer;
+    m_renderer = nullptr;
+}
+
+void GLItem::releaseResources(){
+    window()->scheduleRenderJob(new CleanupJob(m_renderer), QQuickWindow::BeforeSynchronizingStage);
+    m_renderer = nullptr;
+}
+
+void GLItem::sync(){
+    if (!m_renderer) {
+        m_renderer = new GLRenderer();
+        connect(window(), &QQuickWindow::beforeRendering, m_renderer, &GLRenderer::init, Qt::DirectConnection);
+        connect(window(), &QQuickWindow::beforeRenderPassRecording, m_renderer, &GLRenderer::paint, Qt::DirectConnection);
+    }
+    m_renderer->setViewportSize(window()->size() * window()->devicePixelRatio());
+    m_renderer->setT(m_t);
+    m_renderer->setWindow(window());
+}
+
+GLRenderer::~GLRenderer(){
+    delete m_program;
+}
+
+void GLRenderer::init(){
+
+    if (!m_program) {
+        QSGRendererInterface *rif = m_window->rendererInterface();
+        Q_ASSERT(rif->graphicsApi() == QSGRendererInterface::OpenGL || rif->graphicsApi() == QSGRendererInterface::OpenGLRhi);
+
+        initializeOpenGLFunctions();
+
+        m_program = new QOpenGLShaderProgram();
+        m_program->addCacheableShaderFromSourceCode(QOpenGLShader::Vertex,
+                                                    "attribute vec4 a_vertex;"
+//                                                    "uniform mat4 u_mvpMatrix;"
+                                                    "void main() {"
+                                                    "   gl_Position = a_vertex;"
+                                                    "}");
+        m_program->addCacheableShaderFromSourceCode(QOpenGLShader::Fragment,
+                                                    "uniform vec3 u_color;"
+                                                    "void main() {"
+                                                    "   gl_FragColor = vec4(u_color, 1.0);"
+                                                    "}");
+
+
+//        for (int i=0;i<5000;i++) {
+//            auto theta = 2*grandom.generateDouble()-1;
+//            vertices.append(0.0f);
+//            vertices.append(theta);
+//            vertices.append(sin(theta));
+//        }
+
+        m_program->link();
+
+        colorUniformLoc = m_program->uniformLocation("u_color");
+        vertexAttribLoc = m_program->attributeLocation("a_vertex");
+        mvpMatrixUniLoc = m_program->uniformLocation("u_mvpMatrix");
+
+    }
+}
+
+void GLRenderer::paint(){
+    m_window->beginExternalCommands();
+
+    m_program->bind();
+    m_program->enableAttributeArray(0);
+
+    glDisableVertexAttribArray(0);//Disable all vertex attributes
+
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clear screen and depth buffer
+    m_program->enableAttributeArray(vertexAttribLoc);
+
+//    QMatrix4x4 pmvMatrix;
+//    m_program->setUniformValue(mvpMatrixUniLoc, pmvMatrix);
+//    m_program->setAttributeArray(vertexAttribLoc, GL_FLOAT, vertices.data(), 3);
+
+    QVector3D color(grandom.generateDouble(),grandom.generateDouble(),grandom.generateDouble());
+    m_program->setUniformValue("u_color", color);
+
+    glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
+    glEnableVertexAttribArray(0);
+    glDisable(GL_DEPTH_TEST);
+//    glEnable(GL_DEPTH_TEST);
+//    glClearDepth(1.0);
+//    glDepthFunc(GL_LEQUAL);//Type of depth test performed
+
+    glDisable(GL_BLEND);
+    glLoadIdentity();//Reset the current model observation matrix
+
+    glPointSize(15.0f);
+    if (!glIsEnabled(GL_POINT_SMOOTH)) glEnable(GL_POINT_SMOOTH);
+
+    QMatrix4x4 mvpMatrix;
+    m_program->setUniformValue(mvpMatrixUniLoc, mvpMatrix);
+
+    glDrawArrays(GL_POINTS, 0, 5);
+    glBegin(GL_POINTS);
+    for (int i=0;i<500;i++) {
+        auto theta = 2*grandom.generateDouble()-1;
+        glVertex3f(theta+grandom.generateDouble()*0.3,
+                   sin(theta)*fabs(theta),
+                   sin(theta)
+                   );
+    }
+    glEnd();
+
+    m_program->release();
+
+    m_window->resetOpenGLState();
+    m_window->endExternalCommands();
 }

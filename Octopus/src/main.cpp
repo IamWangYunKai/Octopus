@@ -8,11 +8,10 @@
 #include "globaldata.h"
 #include "interaction.h"
 #include "viewerinterface.hpp"
-#include "glitem.h"
 #include "cmdreceiver.h"
 #include "debugger.h"
 #include "clocsync.h"
-#include "squircle.h"
+#include "glitem.h"
 
 namespace  {
     void initSetup(){
@@ -21,12 +20,11 @@ namespace  {
         CommandReceiver::instance();
         DebugEngine::instance();
         SyncCloc::instance();
-        qmlRegisterType<Squircle>("OpenGLUnderQML", 1, 0, "Squircle");
+        qmlRegisterType<GLItem>("BackEndInterface", 1, 0, "GLItem");
         qmlRegisterType<Interaction>("BackEndInterface", 1, 0, "Interaction");
         qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
         qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");
         qmlRegisterType<ViewerInterface>("BackEndInterface", 1, 0, "ViewerInterface");
-        qmlRegisterType<GLItem>("BackEndInterface", 1, 0, "GLItem" );
     }
 }
 

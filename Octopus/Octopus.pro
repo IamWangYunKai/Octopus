@@ -19,11 +19,9 @@ SOURCES += \
         src/widgetosritem.cpp \
         src/globaldata.cpp \
         src/interaction.cpp \
-        src/glitem.cpp \
-        src/squircle.cpp
+        src/glitem.cpp
 
-RESOURCES += qml.qrc \
-             shader.qrc
+RESOURCES += qml.qrc
 
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -39,12 +37,11 @@ HEADERS += \
     include/globaldata.h \
     include/interaction.h \
     include/viewerinterface.hpp \
-    include/glitem.h \
     include/udpreceiver.h \
     include/cmdreceiver.h \
     include/debugger.h \
     include/clocsync.h \
-    include/squircle.h
+    include/glitem.h
 
 INCLUDEPATH += include
 
@@ -52,3 +49,4 @@ DISTFILES += \
     android-sources/AndroidManifest.xml \
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
+win32:LIBS += opengl32.lib
