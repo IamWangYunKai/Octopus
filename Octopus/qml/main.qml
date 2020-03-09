@@ -108,6 +108,26 @@ Window {
 //                        console.log(interaction.getLatency())
                     }
                 }
+                MouseRectangle{
+                    id:r1
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.top:parent.top
+                    anchors.topMargin: 400
+                    onValueChanged:{
+    //                    interaction.pos(x, y)
+                    }
+                }
+                MouseRectangle{
+                    id:r2
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    anchors.top:parent.top
+                    anchors.topMargin: 400
+                    onValueChanged:{
+    //                    interaction.dir(x, y)
+                    }
+                }
             }
         }
         Tab {

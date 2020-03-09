@@ -10,5 +10,6 @@
         <file>qml/IconGaugeStyle.qml</file>
         <file>resource/fuel-icon.png</file>
         <file>resource/temperature-icon.png</file>
+        <file>qml/MouseRectangle.qml</file>
     </qresource>
 </RCC>
