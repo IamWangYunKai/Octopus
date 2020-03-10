@@ -111,24 +111,29 @@ Window {
                 }
                 MouseRectangle{
                     id:r1
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    anchors.top:parent.top
-                    anchors.topMargin: 400
+//                    anchors.left: parent.left
+//                    anchors.leftMargin: 10
+//                    anchors.horizontalCenter: parent
+                    anchors.bottom:parent.bottom
+                    anchors.bottomMargin:20
+                    anchors.horizontalCenter: parent.horizontalCenter
+//                    anchors.top:parent.top
+//                    anchors.topMargin: 400
                     onValueChanged:{
                         interaction.vel(x, y)
-                    }
-                }
-                MouseRectangle{
-                    id:r2
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    anchors.top:parent.top
-                    anchors.topMargin: 400
-                    onValueChanged:{
                         interaction.dir(x, y)
                     }
                 }
+//                MouseRectangle{
+//                    id:r2
+//                    anchors.right: parent.right
+//                    anchors.rightMargin: 10
+//                    anchors.top:parent.top
+//                    anchors.topMargin: 400
+//                    onValueChanged:{
+//                        interaction.dir(x, y)
+//                    }
+//                }
             }
         }
         Tab {
