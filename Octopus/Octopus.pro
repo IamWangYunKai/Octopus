@@ -20,7 +20,7 @@ SOURCES += \
         src/widgetosritem.cpp \
         src/globaldata.cpp \
         src/interaction.cpp \
-        src/glitem.cpp
+#        src/glitem.cpp
 
 RESOURCES += qml.qrc
 
@@ -42,7 +42,7 @@ HEADERS += \
     include/cmdreceiver.h \
     include/debugger.h \
     include/clocsync.h \
-    include/glitem.h \
+#    include/glitem.h \
     include/cmdsender.h
 
 INCLUDEPATH += include

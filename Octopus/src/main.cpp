@@ -12,7 +12,7 @@
 #include "cmdsender.h"
 #include "debugger.h"
 #include "clocsync.h"
-#include "glitem.h"
+//#include "glitem.h"
 
 namespace  {
     void initSetup(){
@@ -22,7 +22,7 @@ namespace  {
         CommandSender::instance();
         DebugEngine::instance();
         SyncCloc::instance();
-        qmlRegisterType<GLItem>("BackEndInterface", 1, 0, "GLItem");
+//        qmlRegisterType<GLItem>("BackEndInterface", 1, 0, "GLItem");
         qmlRegisterType<Interaction>("BackEndInterface", 1, 0, "Interaction");
         qmlRegisterType<ParamInterface>("BackEndInterface", 1, 0, "ParamModel");
         qmlRegisterType<WidgetOSRItem>("BackEndInterface",1,0, "WidgetOSRItem");

@@ -6,7 +6,7 @@ Rectangle{
     height:200
     radius: height/2
     color:"#3A3F44"
-    opacity:0.3
+    opacity:0.0
     signal valueChanged(real x, real y)
     MultiPointTouchArea {
         anchors.fill: parent
@@ -17,7 +17,8 @@ Rectangle{
         ]
         onReleased:{
             valueChanged(0, 0)
-            parent.opacity = 0.3
+            parent.opacity = 0.0
+            rocker.opacity = 0.0
         }
         onUpdated: {
             valueChanged(touch.x - parent.width/2, touch.y - parent.height/2)
@@ -25,6 +26,7 @@ Rectangle{
         onPressed: {
             valueChanged(touch.x - parent.width/2, touch.y - parent.height/2)
             parent.opacity = 0.8
+            rocker.opacity = 0.8
         }
         states: State {
             name: "reset"; when: touch.pressed
