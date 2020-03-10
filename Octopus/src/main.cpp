@@ -9,6 +9,7 @@
 #include "interaction.h"
 #include "viewerinterface.hpp"
 #include "cmdreceiver.h"
+#include "cmdsender.h"
 #include "debugger.h"
 #include "clocsync.h"
 #include "glitem.h"
@@ -18,6 +19,7 @@ namespace  {
         GlobalData::instance();
         ParamManager::instance();
         CommandReceiver::instance();
+        CommandSender::instance();
         DebugEngine::instance();
         SyncCloc::instance();
         qmlRegisterType<GLItem>("BackEndInterface", 1, 0, "GLItem");

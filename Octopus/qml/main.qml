@@ -105,6 +105,7 @@ Window {
                         frameCounter += 1
 //                        console.log(frameCounter)
                         videoFrame.source = "image://image_provider/camera"+frameCounter
+                        interaction.sendCmd()
 //                        console.log(interaction.getLatency())
                     }
                 }
@@ -115,7 +116,7 @@ Window {
                     anchors.top:parent.top
                     anchors.topMargin: 400
                     onValueChanged:{
-    //                    interaction.pos(x, y)
+                        interaction.vel(x, y)
                     }
                 }
                 MouseRectangle{
@@ -125,7 +126,7 @@ Window {
                     anchors.top:parent.top
                     anchors.topMargin: 400
                     onValueChanged:{
-    //                    interaction.dir(x, y)
+                        interaction.dir(x, y)
                     }
                 }
             }

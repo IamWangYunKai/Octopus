@@ -14,6 +14,9 @@ public:
     Q_INVOKABLE double getV();
     Q_INVOKABLE double getW();
     Q_INVOKABLE void syncCloc(const int &n);
+    Q_INVOKABLE void vel(double x, double y);
+    Q_INVOKABLE void dir(double x, double y);
+    Q_INVOKABLE void sendCmd();
 private:
     QMutex mutex;
 };

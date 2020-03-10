@@ -1,7 +1,9 @@
 #include "interaction.h"
 #include "globaldata.h"
 #include "cmdreceiver.h"
+#include "cmdsender.h"
 #include "clocsync.h"
+#include <cmath>
 
 Interaction::Interaction(QObject *parent) : QObject(parent) {
 }
@@ -28,4 +30,18 @@ double Interaction::getW(){
 
 void Interaction::syncCloc(const int &n){
     SyncCloc::instance()->sendPackage(n);
+}
+
+void Interaction::vel(double x, double y){
+    double v = - sin(atan2(y, x)); //y-axis facing down
+    CommandSender::instance()->setV(v);
+}
+
+void Interaction::dir(double x, double y){
+    double w = cos(atan2(y, x));
+    CommandSender::instance()->setW(w);
+}
+
+void Interaction::sendCmd(){
+    CommandSender::instance()->sendCmd();
 }

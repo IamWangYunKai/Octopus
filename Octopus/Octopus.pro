@@ -9,6 +9,7 @@ RC_ICONS = resource/octopus.ico
 SOURCES += \
         src/clocsync.cpp \
         src/cmdreceiver.cpp \
+        src/cmdsender.cpp \
         src/debugger.cpp \
 	src/main.cpp \
         src/imageprovider.cpp \
@@ -41,7 +42,8 @@ HEADERS += \
     include/cmdreceiver.h \
     include/debugger.h \
     include/clocsync.h \
-    include/glitem.h
+    include/glitem.h \
+    include/cmdsender.h
 
 INCLUDEPATH += include
 
@@ -50,3 +52,5 @@ DISTFILES += \
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
 win32:LIBS += opengl32.lib
+
+android: DEFINES += ANDROID_PLATFORM

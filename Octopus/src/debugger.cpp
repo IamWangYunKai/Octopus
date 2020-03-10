@@ -5,6 +5,11 @@
 namespace {
     int PORT_RECEIVE = 23335;
     QString BOARDCAST_ADDRESS = "233.233.233.233";
+#ifdef ANDROID_PLATFORM
+    int TEXT_WIDTH = 8;
+#else
+    int TEXT_WIDTH = 11;
+#endif
 }
 
 Debugger::Debugger(){
@@ -115,7 +120,7 @@ void Debugger::box(QPainter &painter, const QRectF &rect, const QString &message
         painter.setPen(QPen(Qt::red, 1));
     }
     painter.drawRect(rect);
-    QRectF lableRect = QRectF(rect.x(), rect.y()-20, message.size()*11, 20);
+    QRectF lableRect = QRectF(rect.x(), rect.y()-20, message.size()*TEXT_WIDTH, 20);
     painter.fillRect(lableRect, color);
     painter.setPen(QPen(adaptColor(color), 1));
     painter.drawText(lableRect, Qt::AlignLeft, message);

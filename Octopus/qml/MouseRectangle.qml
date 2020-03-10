@@ -7,7 +7,7 @@ Rectangle{
     radius: height/2
     color:"#3A3F44"
     opacity:0.3
-    signal valueChanged(int x, int y)
+    signal valueChanged(real x, real y)
     MultiPointTouchArea {
         anchors.fill: parent
         minimumTouchPoints: 1
