@@ -2,20 +2,18 @@ import QtQuick 2.10
 import QtQuick.Window 2.10
 import QtQuick.Controls 1.4// for TabView
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2//for get screen size
+//import QtQuick.Window 2.2//for get screen size
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import QtQuick.Extras 1.4
 
 import BackEndInterface 1.0
 
-import QtDataVisualization 1.2
-
 Window {
     id:root
     visible: true
-    width: 1440;//Screen.desktopAvailableWidth*0.618
-    height: 720;//Screen.desktopAvailableHeight*0.618
+    width: 720*2//Screen.desktopAvailableWidth*0.618
+    height: 720//Screen.desktopAvailableHeight*0.618
     title: qsTr("Octopus")
 
     property bool stopFlag : false
@@ -49,6 +47,7 @@ Window {
                     latency_writer.text = latency.toString() + " ms"
                 }
             }
+            console.log(Screen.orientation)
         }
     }
     Timer {
@@ -69,6 +68,7 @@ Window {
         id: tabview
         width:parent.width
         height:parent.height
+        tabsVisible:false
         onCurrentIndexChanged : {
             if(currentIndex == 0){
                 fps_word.visible = true
@@ -111,12 +111,12 @@ Window {
                 }
                 MouseRectangle{
                     id:r1
-//                    anchors.left: parent.left
-//                    anchors.leftMargin: 10
+                    anchors.right: parent.right
+                    anchors.rightMargin: 50
 //                    anchors.horizontalCenter: parent
                     anchors.bottom:parent.bottom
                     anchors.bottomMargin:20
-                    anchors.horizontalCenter: parent.horizontalCenter
+//                    anchors.horizontalCenter: parent.horizontalCenter
 //                    anchors.top:parent.top
 //                    anchors.topMargin: 400
                     onValueChanged:{
@@ -134,22 +134,17 @@ Window {
 //                        interaction.dir(x, y)
 //                    }
 //                }
-            }
-        }
-        Tab {
-            title: "Dashboard"
-            Row {
-                id: gaugeRow
-                spacing: parent.width * 0.05
-                padding: parent.width * 0.1
-                anchors.centerIn: parent
                 CircularGauge {
                     id: speedometer
+                    opacity: 0.7
                     value: v*100    // here get value of v, which comes from frame_timer
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 50
+                    anchors.top:parent.top
+                    anchors.topMargin:20
                     minimumValue: 0
                     maximumValue: 240
-                    width: parent.width/4
+                    width: parent.width/8
                     height: width
                     style: DashboardGaugeStyle {}
                     Behavior on value {
@@ -158,55 +153,19 @@ Window {
                         }
                     }
                 }
-                Column{
-                    CircularGauge {
-                        id: fuelGauge
-                        value: 0.6
-                        maximumValue: 1
-                        width: gaugeRow.width/8
-                        height: width
-                        style: IconGaugeStyle {
-                            id: fuelGaugeStyle
-
-                            icon: "qrc:/resource/fuel-icon.png"
-                            minWarningColor: Qt.rgba(0.5, 0, 0, 1)
-
-                            tickmarkLabel: Text {
-                                color: "white"
-                                visible: styleData.value === 0 || styleData.value === 1
-                                font.pixelSize: fuelGaugeStyle.toPixels(0.225)
-                                text: styleData.value === 0 ? "E" : (styleData.value === 1 ? "F" : "")
-                            }
-                        }
-                    }
-                    CircularGauge {
-                        value: 0.4
-                        maximumValue: 1
-                        width: gaugeRow.width/8
-                        height: width
-                        style: IconGaugeStyle {
-                            id: tempGaugeStyle
-
-                            icon: "qrc:/resource/temperature-icon.png"
-                            maxWarningColor: Qt.rgba(0.5, 0, 0, 1)
-
-                            tickmarkLabel: Text {
-                                color: "white"
-                                visible: styleData.value === 0 || styleData.value === 1
-                                font.pixelSize: tempGaugeStyle.toPixels(0.225)
-                                text: styleData.value === 0 ? "C" : (styleData.value === 1 ? "H" : "")
-                            }
-                        }
-                    }
-                }
                 CircularGauge {
                     id: tachometer
-                    width: parent.width/4
+                    opacity: 0.7
+                    width: parent.width/8
                     height: width
                     value: w*500    // here get value of w, which comes from frame_timer
                     minimumValue: -500
                     maximumValue: 500
-                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: speedometer.left
+                    anchors.rightMargin: 50
+                    anchors.top:parent.top
+                    anchors.topMargin:20
                     style: TachometerStyle {
                         labelStepSize: (tachometer.maximumValue - tachometer.minimumValue)/10
                         tickmarkStepSize: labelStepSize/2
@@ -219,10 +178,93 @@ Window {
                 }
             }
         }
-        Tab {
-            title: "Viewer"
-            Viewer{}
-        }
+//        Tab {
+//            title: "Dashboard"
+//            Row {
+//                id: gaugeRow
+//                spacing: parent.width * 0.05
+//                padding: parent.width * 0.1
+//                anchors.centerIn: parent
+//                CircularGauge {
+//                    id: speedometer
+//                    value: v*100    // here get value of v, which comes from frame_timer
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    minimumValue: 0
+//                    maximumValue: 240
+//                    width: parent.width/4
+//                    height: width
+//                    style: DashboardGaugeStyle {}
+//                    Behavior on value {
+//                        NumberAnimation {
+//                            duration: 500
+//                        }
+//                    }
+//                }
+//                Column{
+//                    CircularGauge {
+//                        id: fuelGauge
+//                        value: 0.6
+//                        maximumValue: 1
+//                        width: gaugeRow.width/8
+//                        height: width
+//                        style: IconGaugeStyle {
+//                            id: fuelGaugeStyle
+
+//                            icon: "qrc:/resource/fuel-icon.png"
+//                            minWarningColor: Qt.rgba(0.5, 0, 0, 1)
+
+//                            tickmarkLabel: Text {
+//                                color: "white"
+//                                visible: styleData.value === 0 || styleData.value === 1
+//                                font.pixelSize: fuelGaugeStyle.toPixels(0.225)
+//                                text: styleData.value === 0 ? "E" : (styleData.value === 1 ? "F" : "")
+//                            }
+//                        }
+//                    }
+//                    CircularGauge {
+//                        value: 0.4
+//                        maximumValue: 1
+//                        width: gaugeRow.width/8
+//                        height: width
+//                        style: IconGaugeStyle {
+//                            id: tempGaugeStyle
+
+//                            icon: "qrc:/resource/temperature-icon.png"
+//                            maxWarningColor: Qt.rgba(0.5, 0, 0, 1)
+
+//                            tickmarkLabel: Text {
+//                                color: "white"
+//                                visible: styleData.value === 0 || styleData.value === 1
+//                                font.pixelSize: tempGaugeStyle.toPixels(0.225)
+//                                text: styleData.value === 0 ? "C" : (styleData.value === 1 ? "H" : "")
+//                            }
+//                        }
+//                    }
+//                }
+//                CircularGauge {
+//                    id: tachometer
+//                    width: parent.width/4
+//                    height: width
+//                    value: w*500    // here get value of w, which comes from frame_timer
+//                    minimumValue: -500
+//                    maximumValue: 500
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    style: TachometerStyle {
+//                        labelStepSize: (tachometer.maximumValue - tachometer.minimumValue)/10
+//                        tickmarkStepSize: labelStepSize/2
+//                    }
+//                    Behavior on value {
+//                        NumberAnimation {
+//                            duration: 500
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        Tab {
+//            title: "Viewer"
+//            Viewer{}
+//        }
 //        Tab {
 //            title: "Test"
 //            GLItem {
@@ -235,16 +277,16 @@ Window {
 //            }
 //        }
 
-        Tab {
-            title: "Widget"
-            WidgetOSRItem {
-                id: osrItem
-                anchors.top: parent.top
-                anchors.left: parent.left
-                width: parent.width
-                height: parent.height
-            }
-        }
+//        Tab {
+//            title: "Widget"
+//            WidgetOSRItem {
+//                id: osrItem
+//                anchors.top: parent.top
+//                anchors.left: parent.left
+//                width: parent.width
+//                height: parent.height
+//            }
+//        }
 
         Tab {
             title: "Settings"
@@ -284,7 +326,7 @@ Window {
             visible: true
             text : qsTr("Latency:")
             x:30
-            y:60
+            y:Qt.platform.os == "android" ? 30 : 60
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold
@@ -293,7 +335,7 @@ Window {
             id : fps_writer;
             visible: true
             text : "0"
-            x:100
+            x:Qt.platform.os == "android" ? 60 : 100
             y:10
             color:"blue"
             font.pointSize: 16
@@ -303,8 +345,8 @@ Window {
             id : latency_writer;
             visible: true
             text : "--"
-            x:150
-            y:60
+            x:Qt.platform.os == "android" ? 100 : 150
+            y:Qt.platform.os == "android" ? 30 : 60
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold
