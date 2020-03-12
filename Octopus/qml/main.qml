@@ -12,8 +12,9 @@ import BackEndInterface 1.0
 Window {
     id:root
     visible: true
-    width: 720*2//Screen.desktopAvailableWidth*0.618
-    height: 720//Screen.desktopAvailableHeight*0.618
+    visibility: Qt.platform.os === "android" ? Window.FullScreen : Window.Windowed
+    width: Qt.platform.os === "android" ? 0 : 720*2//Screen.desktopAvailableWidth*0.618
+    height: Qt.platform.os === "android" ? 0 : 720//Screen.desktopAvailableHeight*0.618
     title: qsTr("Octopus")
 
     property bool stopFlag : false
@@ -47,7 +48,6 @@ Window {
                     latency_writer.text = latency.toString() + " ms"
                 }
             }
-            console.log(Screen.orientation)
         }
     }
     Timer {
@@ -103,48 +103,62 @@ Window {
                     running: true
                     onTriggered: {
                         frameCounter += 1
-//                        console.log(frameCounter)
                         videoFrame.source = "image://image_provider/camera"+frameCounter
                         interaction.sendCmd()
-//                        console.log(interaction.getLatency())
                     }
                 }
                 MouseRectangle{
                     id:r1
                     anchors.right: parent.right
-                    anchors.rightMargin: 50
-//                    anchors.horizontalCenter: parent
+                    anchors.rightMargin: 40
                     anchors.bottom:parent.bottom
                     anchors.bottomMargin:20
-//                    anchors.horizontalCenter: parent.horizontalCenter
-//                    anchors.top:parent.top
-//                    anchors.topMargin: 400
                     onValueChanged:{
                         interaction.vel(x, y)
                         interaction.dir(x, y)
                     }
                 }
-//                MouseRectangle{
-//                    id:r2
-//                    anchors.right: parent.right
-//                    anchors.rightMargin: 10
-//                    anchors.top:parent.top
-//                    anchors.topMargin: 400
-//                    onValueChanged:{
-//                        interaction.dir(x, y)
-//                    }
-//                }
+                DelayButton{
+                    id:delayButton
+                    delay: 700
+                    text: "Brake"
+                    width: parent.width/8>100 ? parent.width/8 : 100
+                    height: width
+                    opacity: 0.3
+                    anchors.left: parent.left
+                    anchors.leftMargin: 40
+                    anchors.bottom:parent.bottom
+                    anchors.bottomMargin:20
+                    property bool ifPressed: false
+                    onPressedChanged: {
+                        checked = false
+                        ifPressed = !ifPressed
+                        if(ifPressed) opacity = 0.7
+                        else opacity = 0.3
+                    }
+                    onActivated: {
+                        console.log("STOP !")
+                    }
+                    Timer {
+                        interval: 17
+                        repeat: true
+                        running: true
+                        onTriggered: {
+                            interaction.setBrake(delayButton.progress)
+                        }
+                    }
+                }
                 CircularGauge {
                     id: speedometer
                     opacity: 0.7
                     value: v*100    // here get value of v, which comes from frame_timer
                     anchors.right: parent.right
-                    anchors.rightMargin: 50
+                    anchors.rightMargin: 20
                     anchors.top:parent.top
-                    anchors.topMargin:20
+                    anchors.topMargin:10
                     minimumValue: 0
                     maximumValue: 240
-                    width: parent.width/8
+                    width: parent.width/8>100 ? parent.width/8 : 100
                     height: width
                     style: DashboardGaugeStyle {}
                     Behavior on value {
@@ -156,16 +170,15 @@ Window {
                 CircularGauge {
                     id: tachometer
                     opacity: 0.7
-                    width: parent.width/8
+                    width: parent.width/8>100 ? parent.width/8 : 100
                     height: width
                     value: w*500    // here get value of w, which comes from frame_timer
                     minimumValue: -500
                     maximumValue: 500
-//                    anchors.verticalCenter: parent.verticalCenter
                     anchors.right: speedometer.left
-                    anchors.rightMargin: 50
+                    anchors.rightMargin: 20
                     anchors.top:parent.top
-                    anchors.topMargin:20
+                    anchors.topMargin:10
                     style: TachometerStyle {
                         labelStepSize: (tachometer.maximumValue - tachometer.minimumValue)/10
                         tickmarkStepSize: labelStepSize/2
@@ -326,7 +339,7 @@ Window {
             visible: true
             text : qsTr("Latency:")
             x:30
-            y:Qt.platform.os == "android" ? 30 : 60
+            y:Qt.platform.os === "android" ? 30 : 60
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold
@@ -335,7 +348,7 @@ Window {
             id : fps_writer;
             visible: true
             text : "0"
-            x:Qt.platform.os == "android" ? 60 : 100
+            x:Qt.platform.os === "android" ? 70 : 100
             y:10
             color:"blue"
             font.pointSize: 16
@@ -345,8 +358,8 @@ Window {
             id : latency_writer;
             visible: true
             text : "--"
-            x:Qt.platform.os == "android" ? 100 : 150
-            y:Qt.platform.os == "android" ? 30 : 60
+            x:Qt.platform.os === "android" ? 100 : 150
+            y:Qt.platform.os === "android" ? 30 : 60
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold

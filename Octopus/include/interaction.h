@@ -17,6 +17,7 @@ public:
     Q_INVOKABLE void vel(double x, double y);
     Q_INVOKABLE void dir(double x, double y);
     Q_INVOKABLE void sendCmd();
+    Q_INVOKABLE void setBrake(double brake);
 private:
     QMutex mutex;
 };

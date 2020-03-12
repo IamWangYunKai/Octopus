@@ -19,6 +19,7 @@ void CmdSender::sendCmd(){
     mutex.lock();
     object.insert("v",v);
     object.insert("w",w);
+    object.insert("b",brake);
     mutex.unlock();
     QJsonDocument doc;
     doc.setObject(object);
@@ -35,5 +36,11 @@ void CmdSender::setV(double _v){
 void CmdSender::setW(double _w){
     mutex.lock();
     w = _w;
+    mutex.unlock();
+}
+
+void CmdSender::setBrake(double _brake){
+    mutex.lock();
+    brake = _brake;
     mutex.unlock();
 }

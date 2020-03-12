@@ -42,6 +42,10 @@ void Interaction::dir(double x, double y){
     CommandSender::instance()->setW(w);
 }
 
+void Interaction::setBrake(double brake){
+    CommandSender::instance()->setBrake(brake);
+}
+
 void Interaction::sendCmd(){
     CommandSender::instance()->sendCmd();
 }
