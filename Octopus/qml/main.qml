@@ -133,12 +133,11 @@ Window {
                     onPressedChanged: {
                         checked = false
                         ifPressed = !ifPressed
-                        if(ifPressed) opacity = 0.7
-                        else opacity = 0.3
+                        opacity = ifPressed ? 0.7 : 0.3
                     }
-                    onActivated: {
-                        console.log("STOP !")
-                    }
+//                    onActivated: {
+//                        console.log("STOP !")
+//                    }
                     Timer {
                         interval: 17
                         repeat: true
@@ -148,6 +147,29 @@ Window {
                         }
                     }
                 }
+                Dial{
+                    id: gear
+                    anchors.bottom:delayButton.top
+                    anchors.bottomMargin:20
+                    anchors.left: delayButton.left
+                    width: parent.width/8>100 ? parent.width/8 : 100
+                    height: width
+                    stepSize: 1
+                    minimumValue: 0
+                    maximumValue: 5
+                    tickmarksVisible:true
+                    opacity: 0.7
+                    Text {
+                        text: qsTr("Gear")
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    onValueChanged: {
+                        opacity = value > 0 ? 0.5 - value/20.0 : 0.7
+                        interaction.setGear(value)
+                    }
+                }
+
                 CircularGauge {
                     id: speedometer
                     opacity: 0.7
@@ -191,116 +213,6 @@ Window {
                 }
             }
         }
-//        Tab {
-//            title: "Dashboard"
-//            Row {
-//                id: gaugeRow
-//                spacing: parent.width * 0.05
-//                padding: parent.width * 0.1
-//                anchors.centerIn: parent
-//                CircularGauge {
-//                    id: speedometer
-//                    value: v*100    // here get value of v, which comes from frame_timer
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    minimumValue: 0
-//                    maximumValue: 240
-//                    width: parent.width/4
-//                    height: width
-//                    style: DashboardGaugeStyle {}
-//                    Behavior on value {
-//                        NumberAnimation {
-//                            duration: 500
-//                        }
-//                    }
-//                }
-//                Column{
-//                    CircularGauge {
-//                        id: fuelGauge
-//                        value: 0.6
-//                        maximumValue: 1
-//                        width: gaugeRow.width/8
-//                        height: width
-//                        style: IconGaugeStyle {
-//                            id: fuelGaugeStyle
-
-//                            icon: "qrc:/resource/fuel-icon.png"
-//                            minWarningColor: Qt.rgba(0.5, 0, 0, 1)
-
-//                            tickmarkLabel: Text {
-//                                color: "white"
-//                                visible: styleData.value === 0 || styleData.value === 1
-//                                font.pixelSize: fuelGaugeStyle.toPixels(0.225)
-//                                text: styleData.value === 0 ? "E" : (styleData.value === 1 ? "F" : "")
-//                            }
-//                        }
-//                    }
-//                    CircularGauge {
-//                        value: 0.4
-//                        maximumValue: 1
-//                        width: gaugeRow.width/8
-//                        height: width
-//                        style: IconGaugeStyle {
-//                            id: tempGaugeStyle
-
-//                            icon: "qrc:/resource/temperature-icon.png"
-//                            maxWarningColor: Qt.rgba(0.5, 0, 0, 1)
-
-//                            tickmarkLabel: Text {
-//                                color: "white"
-//                                visible: styleData.value === 0 || styleData.value === 1
-//                                font.pixelSize: tempGaugeStyle.toPixels(0.225)
-//                                text: styleData.value === 0 ? "C" : (styleData.value === 1 ? "H" : "")
-//                            }
-//                        }
-//                    }
-//                }
-//                CircularGauge {
-//                    id: tachometer
-//                    width: parent.width/4
-//                    height: width
-//                    value: w*500    // here get value of w, which comes from frame_timer
-//                    minimumValue: -500
-//                    maximumValue: 500
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    style: TachometerStyle {
-//                        labelStepSize: (tachometer.maximumValue - tachometer.minimumValue)/10
-//                        tickmarkStepSize: labelStepSize/2
-//                    }
-//                    Behavior on value {
-//                        NumberAnimation {
-//                            duration: 500
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        Tab {
-//            title: "Viewer"
-//            Viewer{}
-//        }
-//        Tab {
-//            title: "Test"
-//            GLItem {
-//                SequentialAnimation on t {
-//                    NumberAnimation { to: 1; duration: 2500; easing.type: Easing.InQuad }
-//                    NumberAnimation { to: 0; duration: 2500; easing.type: Easing.OutQuad }
-//                    loops: Animation.Infinite
-//                    running: true
-//                }
-//            }
-//        }
-
-//        Tab {
-//            title: "Widget"
-//            WidgetOSRItem {
-//                id: osrItem
-//                anchors.top: parent.top
-//                anchors.left: parent.left
-//                width: parent.width
-//                height: parent.height
-//            }
-//        }
-
         Tab {
             title: "Settings"
             Settings{
@@ -328,8 +240,10 @@ Window {
             id : fps_word
             visible: true
             text : qsTr("FPS:")
-            x:30
-            y:10
+            anchors.top: parent.top
+            anchors.topMargin:10
+            anchors.left: parent.left
+            anchors.leftMargin:30
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold
@@ -338,8 +252,9 @@ Window {
             id : latency_word
             visible: true
             text : qsTr("Latency:")
-            x:30
-            y:Qt.platform.os === "android" ? 30 : 60
+            anchors.top: fps_word.bottom
+            anchors.topMargin:10
+            anchors.left: fps_word.left
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold
@@ -348,8 +263,9 @@ Window {
             id : fps_writer;
             visible: true
             text : "0"
-            x:Qt.platform.os === "android" ? 70 : 100
-            y:10
+            anchors.top: fps_word.top
+            anchors.left: fps_word.right
+            anchors.leftMargin:20
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold
@@ -358,11 +274,23 @@ Window {
             id : latency_writer;
             visible: true
             text : "--"
-            x:Qt.platform.os === "android" ? 100 : 150
-            y:Qt.platform.os === "android" ? 30 : 60
+            anchors.top: latency_word.top
+            anchors.left: latency_word.right
+            anchors.leftMargin:20
             color:"blue"
             font.pointSize: 16
             font.weight:  Font.Bold
+        }
+        SwitchButton{
+            id: handbreak
+            anchors.top:latency_word.bottom
+            anchors.topMargin:10
+            anchors.left:latency_word.left
+            opacity: 0.3
+            onClicked: {
+                interaction.setHandBrake(checked)
+                handbreak.opacity = checked ? 1.0 : 0.3
+            }
         }
     }
 

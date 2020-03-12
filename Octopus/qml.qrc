@@ -11,5 +11,6 @@
         <file>resource/temperature-icon.png</file>
         <file>qml/MouseRectangle.qml</file>
         <file>qml/DashboardGaugeStyle.qml</file>
+        <file>qml/SwitchButton.qml</file>
     </qresource>
 </RCC>

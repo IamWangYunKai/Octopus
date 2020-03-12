@@ -25,8 +25,8 @@ Rectangle{
         }
         onPressed: {
             valueChanged(touch.x - parent.width/2, touch.y - parent.height/2)
-            parent.opacity = 0.8
-            rocker.opacity = 0.8
+            parent.opacity = 0.7
+            rocker.opacity = 1.0
         }
         states: State {
             name: "reset"; when: touch.pressed

@@ -18,6 +18,8 @@ public:
     Q_INVOKABLE void dir(double x, double y);
     Q_INVOKABLE void sendCmd();
     Q_INVOKABLE void setBrake(double brake);
+    Q_INVOKABLE void setGear(int gear);
+    Q_INVOKABLE void setHandBrake(bool handbrake);
 private:
     QMutex mutex;
 };

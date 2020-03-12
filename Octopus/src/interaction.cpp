@@ -49,3 +49,11 @@ void Interaction::setBrake(double brake){
 void Interaction::sendCmd(){
     CommandSender::instance()->sendCmd();
 }
+
+void Interaction::setGear(int gear){
+    CommandSender::instance()->setGear(gear);
+}
+
+void Interaction::setHandBrake(bool handbrake){
+    CommandSender::instance()->setHandBrake(handbrake);
+}
