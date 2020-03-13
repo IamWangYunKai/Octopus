@@ -159,6 +159,7 @@ Window {
                     maximumValue: 5
                     tickmarksVisible:true
                     opacity: 0.7
+                    value: 1
                     Text {
                         text: qsTr("Gear")
                         anchors.horizontalCenter: parent.horizontalCenter
