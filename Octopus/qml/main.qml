@@ -161,7 +161,7 @@ Window {
                     opacity: 0.7
                     value: 1
                     Text {
-                        text: qsTr("Gear")
+                        text: qsTr("Gear "+qsTr((gear.value).toString()))
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                     }
@@ -180,10 +180,13 @@ Window {
                     anchors.top:parent.top
                     anchors.topMargin:10
                     minimumValue: 0
-                    maximumValue: 240
+                    maximumValue: 500
                     width: parent.width/8>100 ? parent.width/8 : 100
                     height: width
-                    style: DashboardGaugeStyle {}
+                    style: DashboardGaugeStyle {
+                        labelStepSize: (speedometer.maximumValue - speedometer.minimumValue)/10
+                        tickmarkStepSize: labelStepSize/2
+                    }
                     Behavior on value {
                         NumberAnimation {
                             duration: 500
@@ -196,8 +199,8 @@ Window {
                     width: parent.width/8>100 ? parent.width/8 : 100
                     height: width
                     value: w*500    // here get value of w, which comes from frame_timer
-                    minimumValue: -500
-                    maximumValue: 500
+                    minimumValue: -200
+                    maximumValue: 200
                     anchors.right: speedometer.left
                     anchors.rightMargin: 20
                     anchors.top:parent.top
