@@ -5,7 +5,7 @@
 #include <QAbstractListModel>
 #include "globaldata.h"
 #include <cstdlib>
-#include "cmdreceiver.h"
+#include "sensorreceiver.h"
 #include <QTimer>
 
 class ViewerInterface : public QAbstractListModel{
@@ -49,11 +49,11 @@ public:
             case robotTeam:
                 return team;
             case robotBattery:
-                return CommandReceiver::instance()->getV();
+                return SensorInterface::instance()->getV();
             case robotCapacitance:
-                return (CommandReceiver::instance()->getW()+1)/2;
+                return (SensorInterface::instance()->getW()+1)/2;
             case robotInfrared:
-                return CommandReceiver::instance()->getC();
+                return SensorInterface::instance()->getC();
             }
             return 0;
         }

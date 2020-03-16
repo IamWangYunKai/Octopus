@@ -5,29 +5,30 @@
 #include "parammanager.h"
 
 namespace {
-    int PORT_RECEIVE = 23336;
-    int PORT_SEND = 23337;
-    QString BOARDCAST_ADDRESS = "233.233.233.233";
+//    int PORT_RECEIVE = 23336;
+//    int PORT_SEND = 23337;
+//    QString BOARDCAST_ADDRESS = "233.233.233.233";
     const int SYNC_PACKAGE_NUM = 10;
     qint64 last_remote_tsp = 0;
     qint64 last_local_tsp = 0;
     const double UPDATE_RATE = 0.2;
 }
 
-ClocSync::ClocSync(){
-    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
-    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/sync_receive", 23336);
-    ParamManager::instance()->loadParam(PORT_SEND, "Network/sync_send", 23337);
+ClocSync::ClocSync() : UDPInterface(QString("client:clock")){
+//    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
+//    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/sync_receive", 23336);
+//    ParamManager::instance()->loadParam(PORT_SEND, "Network/sync_send", 23337);
 
-    bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
-    if (ret) start();
-    else qDebug() << "Bind Error in ClocSync !";
-    sendPackage(SYNC_PACKAGE_NUM);
+//    bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
+//    if (ret) start();
+//    else qDebug() << "Bind Error in ClocSync !";
+//    sendPackage(SYNC_PACKAGE_NUM);
 }
 
 void ClocSync::sendPackage(const int &n){
+    if(!connected) return;
     QByteArray bytes = QString::number(n).toUtf8();
-    sendSocket.writeDatagram(bytes, QHostAddress(BOARDCAST_ADDRESS), PORT_SEND);
+    socket.writeDatagram(bytes, QHostAddress(ip), port);
 }
 
 void ClocSync::parseData(const QByteArray &receivedData){

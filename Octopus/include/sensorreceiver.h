@@ -1,13 +1,13 @@
-#ifndef CMDRECEIVER_H
-#define CMDRECEIVER_H
+#ifndef SENSORRECEIVER_H
+#define SENSORRECEIVER_H
 
 #include <QMutex>
 #include "singleton.hpp"
-#include "udpreceiver.h"
+#include "udpinterface.h"
 
-class CmdReceiver : public UDPReceiver{
+class SensorReceiver : public UDPInterface{
 public:
-    CmdReceiver();
+    SensorReceiver();
     double getV(){return v;}
     double getW(){return w;}
     bool getC(){return c;}
@@ -18,5 +18,5 @@ private:
     double w = 0;
     bool c = false;
 };
-typedef Singleton<CmdReceiver> CommandReceiver;
-#endif // CMDRECEIVER_H
+typedef Singleton<SensorReceiver> SensorInterface;
+#endif // SENSORRECEIVER_H

@@ -3,8 +3,8 @@
 #include "parammanager.h"
 
 namespace {
-    int PORT_RECEIVE = 23335;
-    QString BOARDCAST_ADDRESS = "233.233.233.233";
+//    int PORT_RECEIVE = 23335;
+//    QString BOARDCAST_ADDRESS = "233.233.233.233";
 #ifdef ANDROID_PLATFORM
     int TEXT_WIDTH = 8;
 #else
@@ -12,13 +12,13 @@ namespace {
 #endif
 }
 
-Debugger::Debugger(){
-    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
-    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/debug_port", 23335);
+Debugger::Debugger() : UDPInterface(QString("client:debug")){
+//    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
+//    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/debug_port", 23335);
 
-    bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
-    if (ret) start();
-    else qDebug() << "Bind Error in Debugger !";
+//    bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
+//    if (ret) start();
+//    else qDebug() << "Bind Error in Debugger !";
 }
 
 void Debugger::parseData(const QByteArray &receivedData){

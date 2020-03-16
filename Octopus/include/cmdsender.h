@@ -3,9 +3,10 @@
 
 #include <QMutex>
 #include <QUdpSocket>
+#include "udpinterface.h"
 #include "singleton.hpp"
 
-class CmdSender{
+class CmdSender : public UDPInterface {
 public:
     CmdSender();
     void sendCmd();
@@ -16,7 +17,6 @@ public:
     void setHandBrake(bool _handbrake);
 private:
     QMutex mutex;
-    QUdpSocket sendSocket;
     double v = 0;
     double w = 0;
     double brake = 0;

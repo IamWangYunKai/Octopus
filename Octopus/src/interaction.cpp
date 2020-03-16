@@ -1,6 +1,6 @@
 #include "interaction.h"
 #include "globaldata.h"
-#include "cmdreceiver.h"
+#include "sensorreceiver.h"
 #include "cmdsender.h"
 #include "clocsync.h"
 #include <cmath>
@@ -21,11 +21,11 @@ int Interaction::getFPS(){
 }
 
 double Interaction::getV(){
-    return CommandReceiver::instance()->getV();
+    return SensorInterface::instance()->getV();
 }
 
 double Interaction::getW(){
-    return CommandReceiver::instance()->getW();
+    return SensorInterface::instance()->getW();
 }
 
 void Interaction::syncCloc(const int &n){

@@ -4,16 +4,15 @@
 #include <QMutex>
 #include <QUdpSocket>
 #include "singleton.hpp"
-#include "udpreceiver.h"
+#include "udpinterface.h"
 
-class ClocSync : public UDPReceiver{
+class ClocSync : public UDPInterface{
 public:
     ClocSync();
     void sendPackage(const int &n);
 private:
     virtual void parseData(const QByteArray &receivedData);
     QMutex mutex;
-    QUdpSocket sendSocket;
 };
 typedef Singleton<ClocSync> SyncCloc;
 #endif // CLOCSYNC_H

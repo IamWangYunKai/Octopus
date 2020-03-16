@@ -1,20 +1,14 @@
 #include "cmdsender.h"
-#include "parammanager.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QDebug>
+#include <thread>
 
-namespace {
-    int PORT_SEND = 23338;
-    QString BOARDCAST_ADDRESS = "233.233.233.233";
-}
-
-CmdSender::CmdSender(){
-    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
-    ParamManager::instance()->loadParam(PORT_SEND, "Network/cmd_send", 23338);
+CmdSender::CmdSender() : UDPInterface(QString("client:cmd")){
 }
 
 void CmdSender::sendCmd(){
+    if(!connected) return;
     QJsonObject object;
     mutex.lock();
     object.insert("v",v);
@@ -26,7 +20,7 @@ void CmdSender::sendCmd(){
     QJsonDocument doc;
     doc.setObject(object);
     QByteArray bytes = doc.toJson(QJsonDocument::Compact);
-    sendSocket.writeDatagram(bytes, QHostAddress(BOARDCAST_ADDRESS), PORT_SEND);
+    socket.writeDatagram(bytes, QHostAddress(ip), port);
 }
 
 void CmdSender::setV(double _v){

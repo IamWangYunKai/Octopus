@@ -6,9 +6,9 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include "singleton.hpp"
-#include "udpreceiver.h"
+#include "udpinterface.h"
 
-class Debugger : public UDPReceiver{
+class Debugger : public UDPInterface{
 public:
     Debugger();
     static void line(QPainter &painter, const QLineF &line, const QColor &color=Qt::color0);
