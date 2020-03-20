@@ -1,4 +1,5 @@
-QT += core quick widgets #opengl
+QT += core quick widgets
+android: QT += androidextras
 CONFIG += c++14
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -47,6 +48,5 @@ DISTFILES += \
     android-sources/AndroidManifest.xml \
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
-win32:LIBS += opengl32.lib
 
 android: DEFINES += ANDROID_PLATFORM
