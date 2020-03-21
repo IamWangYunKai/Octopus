@@ -6,9 +6,10 @@
 namespace {
     double MAX_V = 9999;
     double MAX_W = 9999;
+    const int PORT = 20002;
 }
 
-SensorReceiver::SensorReceiver() : UDPInterface(QString("client:sensor")){
+SensorReceiver::SensorReceiver() : UDPInterface(QString("client:sensor"), PORT){
     ParamManager::instance()->loadParam(MAX_V, "Motion/max_v", 5.0);
     ParamManager::instance()->loadParam(MAX_W, "Motion/max_w", 5.0);
 }

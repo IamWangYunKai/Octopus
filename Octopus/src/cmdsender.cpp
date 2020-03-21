@@ -3,8 +3,10 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <thread>
-
-CmdSender::CmdSender() : UDPInterface(QString("client:cmd")){
+namespace  {
+    const int PORT = 20003;
+}
+CmdSender::CmdSender() : UDPInterface(QString("client:cmd"), PORT){
 }
 
 void CmdSender::sendCmd(){
@@ -20,7 +22,7 @@ void CmdSender::sendCmd(){
     QJsonDocument doc;
     doc.setObject(object);
     QByteArray bytes = doc.toJson(QJsonDocument::Compact);
-    socket.writeDatagram(bytes, QHostAddress(ip), port);
+    socket.writeDatagram(bytes, QHostAddress(publicIP), publicPort);
 }
 
 void CmdSender::setV(double _v){

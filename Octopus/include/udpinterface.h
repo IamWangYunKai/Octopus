@@ -6,7 +6,7 @@
 
 class UDPInterface {
 public:
-    UDPInterface(const QString &regInfo = QString(""));
+    UDPInterface(const QString &regInfo = QString(""), const int &_port=0);
     bool setup(const int &port, const QString &address);
     void readData();
     void start();
@@ -15,6 +15,8 @@ public:
     QUdpSocket socket;
     QString ip;
     int port;
+    QString publicIP;
+    int publicPort;
     bool connected = false;
 private:
     virtual void parseData(const QByteArray &receivedData){}
@@ -23,8 +25,6 @@ private:
     std::thread* receiveThread = nullptr;
     std::thread* tempThread = nullptr;
     QHostAddress hostAddress;
-    QString publicIP;
-    int publicPort;
 };
 
 #endif // UDPINTERFACE_H

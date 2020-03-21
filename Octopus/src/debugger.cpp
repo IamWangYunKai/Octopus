@@ -3,8 +3,7 @@
 #include "parammanager.h"
 
 namespace {
-//    int PORT_RECEIVE = 23335;
-//    QString BOARDCAST_ADDRESS = "233.233.233.233";
+    const int PORT = 20004;
 #ifdef ANDROID_PLATFORM
     int TEXT_WIDTH = 8;
 #else
@@ -12,7 +11,7 @@ namespace {
 #endif
 }
 
-Debugger::Debugger() : UDPInterface(QString("client:debug")){
+Debugger::Debugger() : UDPInterface(QString("client:debug"), PORT){
 //    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
 //    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/debug_port", 23335);
 

@@ -2,9 +2,9 @@
 #include "parammanager.h"
 #include <QDebug>
 
-UDPInterface::UDPInterface(const QString &regInfo){
+UDPInterface::UDPInterface(const QString &regInfo, const int &_port){
     ParamManager::instance()->loadParam(publicIP, "Network/public_ip", "47.100.46.11");
-    ParamManager::instance()->loadParam(publicPort, "Network/public_port", 3386);
+    publicPort = _port;
     register2pub(regInfo);
     startTempThread();
 }
@@ -51,6 +51,7 @@ void UDPInterface::waitForConnect(){
             QStringList addressList = address.split(':', QString::SkipEmptyParts);
             ip = QString(addressList.at(0));
             port = addressList.at(1).toInt();
+            qDebug() <<"Connected ....";
             connected = true;
         }
     }
