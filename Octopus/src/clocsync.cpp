@@ -2,7 +2,6 @@
 #include <QDebug>
 #include <QTime>
 #include "globaldata.h"
-#include "parammanager.h"
 
 namespace {
     const int PORT = 20005;
@@ -13,14 +12,6 @@ namespace {
 }
 
 ClocSync::ClocSync() : UDPInterface(QString("client:clock"), PORT){
-//    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
-//    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/sync_receive", 23336);
-//    ParamManager::instance()->loadParam(PORT_SEND, "Network/sync_send", 23337);
-
-//    bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
-//    if (ret) start();
-//    else qDebug() << "Bind Error in ClocSync !";
-//    sendPackage(SYNC_PACKAGE_NUM);
 }
 
 void ClocSync::sendPackage(const int &n){

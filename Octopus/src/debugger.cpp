@@ -1,6 +1,5 @@
 #include "debugger.h"
 #include <QDebug>
-#include "parammanager.h"
 
 namespace {
     const int PORT = 20004;
@@ -12,12 +11,6 @@ namespace {
 }
 
 Debugger::Debugger() : UDPInterface(QString("client:debug"), PORT){
-//    ParamManager::instance()->loadParam(BOARDCAST_ADDRESS, "Network/multicast_address", "233.233.233.233");
-//    ParamManager::instance()->loadParam(PORT_RECEIVE, "Network/debug_port", 23335);
-
-//    bool ret = setup(PORT_RECEIVE, BOARDCAST_ADDRESS);
-//    if (ret) start();
-//    else qDebug() << "Bind Error in Debugger !";
 }
 
 void Debugger::parseData(const QByteArray &receivedData){
