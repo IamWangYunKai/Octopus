@@ -16,6 +16,7 @@ public:
     QString ip;
     int port;
     QString publicIP;
+    QString robot_id;
     int publicPort;
     bool connected = false;
 private:

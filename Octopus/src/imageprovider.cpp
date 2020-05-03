@@ -13,7 +13,7 @@ namespace {
     int width = 1280;
     int height = 720;
     bool isTest = false;
-    const int PORT = 20001;
+    const int PORT = 10001;
 }
 
 ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap), UDPInterface(QString("client:vision"), PORT){
@@ -50,7 +50,6 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
 }
 
 void ImageProvider::parseData(const QByteArray &receivedData){
-    qDebug() << "Get image";
     auto package_remain = receivedData.mid(0, 8).toInt();
     auto data_length = receivedData.mid(8, 8).toInt();
     qint64 timestamp = static_cast<qint64>(receivedData.mid(16, 16).toLongLong());

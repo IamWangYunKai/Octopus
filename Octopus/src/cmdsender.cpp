@@ -1,10 +1,11 @@
 #include "cmdsender.h"
+#include "utils.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QDebug>
 #include <thread>
 namespace  {
-    const int PORT = 20003;
+    const int PORT = 10003;
 }
 CmdSender::CmdSender() : UDPInterface(QString("client:cmd"), PORT){
 }
@@ -21,7 +22,8 @@ void CmdSender::sendCmd(){
     mutex.unlock();
     QJsonDocument doc;
     doc.setObject(object);
-    QByteArray bytes = doc.toJson(QJsonDocument::Compact);
+    QByteArray data = doc.toJson(QJsonDocument::Compact);
+    QByteArray bytes = toMessage(QString(data), robot_id, QString("cmd"));
     socket.writeDatagram(bytes, QHostAddress(publicIP), publicPort);
 }
 

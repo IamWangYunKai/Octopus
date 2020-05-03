@@ -19,7 +19,8 @@ SOURCES += \
         src/treeitem.cpp \
         src/udpinterface.cpp \
         src/globaldata.cpp \
-        src/interaction.cpp
+        src/interaction.cpp \
+        src/utils.cpp
 
 RESOURCES += qml.qrc
 
@@ -36,6 +37,7 @@ HEADERS += \
     include/treeitem.h \
     include/globaldata.h \
     include/interaction.h \
+    include/utils.h \
     include/viewerinterface.hpp \
     include/debugger.h \
     include/clocsync.h \

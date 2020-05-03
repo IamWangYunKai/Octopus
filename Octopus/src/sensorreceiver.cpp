@@ -6,7 +6,7 @@
 namespace {
     double MAX_V = 9999;
     double MAX_W = 9999;
-    const int PORT = 20002;
+    const int PORT = 10002;
 }
 
 SensorReceiver::SensorReceiver() : UDPInterface(QString("client:sensor"), PORT){

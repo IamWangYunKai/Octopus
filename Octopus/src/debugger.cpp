@@ -2,7 +2,7 @@
 #include <QDebug>
 
 namespace {
-    const int PORT = 20004;
+    const int PORT = 10004;
 #ifdef ANDROID_PLATFORM
     int TEXT_WIDTH = 8;
 #else

@@ -4,7 +4,7 @@
 #include "globaldata.h"
 
 namespace {
-    const int PORT = 20005;
+    const int PORT = 10005;
     const int SYNC_PACKAGE_NUM = 10;
     qint64 last_remote_tsp = 0;
     qint64 last_local_tsp = 0;
