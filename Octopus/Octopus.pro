@@ -1,4 +1,4 @@
-QT += core quick widgets
+QT += core quick widgets gamepad
 android: QT += androidextras
 CONFIG += c++14
 

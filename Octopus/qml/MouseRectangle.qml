@@ -9,6 +9,7 @@ Rectangle{
     opacity:0.0
     signal valueChanged(real x, real y)
     MultiPointTouchArea {
+        id: touchArea
         anchors.fill: parent
         minimumTouchPoints: 1
         maximumTouchPoints: 1
@@ -54,5 +55,8 @@ Rectangle{
         property int _y:touch.y - parent.height/2
         property real _r: Math.min(Math.sqrt(_x*_x + _y*_y), parent.width/2)
         property real theta: Math.atan2(_y,_x)
+    }
+    function changeAxis(axis_x, axis_y){
+        valueChanged(axis_x, axis_y)
     }
 }

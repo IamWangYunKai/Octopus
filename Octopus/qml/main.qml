@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import QtQuick.Extras 1.4
+import QtGamepad 1.0
 
 import BackEndInterface 1.0
 
@@ -91,6 +92,7 @@ Window {
             }
         }
         Tab {
+            id: tab
             title: "Camera"
             Image {
                 id:videoFrame
@@ -134,11 +136,13 @@ Window {
                         checked = false
                         ifPressed = !ifPressed
                         opacity = ifPressed ? 0.7 : 0.3
+                        brake_timer.running = ifPressed
                     }
 //                    onActivated: {
 //                        console.log("STOP !")
 //                    }
                     Timer {
+                        id: brake_timer
                         interval: 17
                         repeat: true
                         running: true
@@ -214,6 +218,45 @@ Window {
                             duration: 500
                         }
                     }
+                }
+                Gamepad {
+                    id: gamepad
+                    property bool ifPressed: true
+                    property bool ifHandBreak: true
+                    deviceId: GamepadManager.connectedGamepads.length > 0 ? GamepadManager.connectedGamepads[0] : -1
+                    onAxisRightXChanged: {
+                        if (Math.sqrt(gamepad.axisRightX*gamepad.axisRightX + gamepad.axisRightY*gamepad.axisRightY) < 0.1 ){
+                            r1.changeAxis(0, 0)
+                        }
+                        else r1.changeAxis(gamepad.axisRightX, gamepad.axisRightY)
+                    }
+                    onAxisRightYChanged: {
+                        if (Math.sqrt(gamepad.axisRightX*gamepad.axisRightX + gamepad.axisRightY*gamepad.axisRightY) < 0.1 ){
+                            r1.changeAxis(0, 0)
+                        }
+                        else r1.changeAxis(gamepad.axisRightX, gamepad.axisRightY)
+                    }
+                    onButtonUpChanged: {
+                        ifPressed = !ifPressed
+                        if(ifPressed) gear.value += 1
+                    }
+                    onButtonDownChanged: {
+                        ifPressed = !ifPressed
+                        if(ifPressed) gear.value -= 1
+                    }
+                    onButtonXChanged: {
+                        ifHandBreak = !ifHandBreak
+                        if(ifHandBreak) handbreak.checked = ! handbreak.checked
+                        interaction.setHandBrake(handbreak.checked)
+                        handbreak.opacity = handbreak.checked ? 1.0 : 0.3
+                    }
+                    onButtonR2Changed: {
+                        interaction.setBrake(Math.max(gamepad.buttonR2, gamepad.buttonL2))
+                    }
+                    onButtonL2Changed: {
+                        interaction.setBrake(Math.max(gamepad.buttonR2, gamepad.buttonL2))
+                    }
+
                 }
             }
         }
@@ -340,5 +383,9 @@ Window {
         onActivated: {
             tabview.currentIndex = 5
         }
+    }
+    Connections {
+        target: GamepadManager
+        onGamepadConnected: gamepad.deviceId = deviceId
     }
 }
