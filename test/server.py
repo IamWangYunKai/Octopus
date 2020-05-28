@@ -4,7 +4,7 @@ import socket
 
 cap = cv2.VideoCapture('video.mp4')
 
-address = ('127.0.0.1', 33334)
+address = ('127.0.0.1', 10001)
 cnt = 0
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -25,7 +25,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         ra = ss.recv(5)
         
         # @2
+        print('send')
         ss.sendall(data)
+        print('recv')
+        ra = ss.recv(5)
 
     ss.close()
     print('finish')

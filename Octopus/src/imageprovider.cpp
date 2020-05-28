@@ -49,34 +49,20 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
     }
 }
 
-void ImageProvider::parseData(const QByteArray &receivedData){
-    auto package_remain = receivedData.mid(0, 8).toInt();
-    auto data_length = receivedData.mid(8, 8).toInt();
-    qint64 timestamp = static_cast<qint64>(receivedData.mid(16, 16).toLongLong());
-    QByteArray data = receivedData.mid(32);
-
-    // receiving packages, but get wrong package number
-    if(expect_package_num > -1 && package_remain != expect_package_num){
-        image_data = QByteArray("");// lost package, start over
-    }
-    expect_package_num = package_remain - 1;
-
-    image_data = image_data.append(data);
-//    qDebug() << package_remain << data_length << rx.length();
-    if(package_remain == 0){
-        // match data length
-        if(data_length == image_data.length()){
-            qint64 current = QDateTime::currentMSecsSinceEpoch();
-            qint64 timeBias = GlobalData::instance()->getSyncBias();
-            qint64 latency = current - (timeBias + timestamp)/1000;
-            GlobalData::instance()->setLatency(latency);
-            GlobalData::instance()->countFPS();
-//            qDebug() << "latency:" << latency << "ms";
+void ImageProvider::parseData(){
+    QByteArray receivedData = socket->readAll();
+    auto length = receivedData.length();
+    if(socket->state() == QAbstractSocket::ConnectedState){
+        if(length < 10){
+            socket->write("OK");
+            socket->waitForBytesWritten(100);
+        }
+        else{
+            socket->write("OK");
+            socket->waitForBytesWritten(100);
             mutex.lock();
-            image = QImage::fromData(image_data);
+            image = QImage::fromData(receivedData);
             mutex.unlock();
         }
-        image_data = QByteArray("");
-        expect_package_num = -1;
     }
 }
