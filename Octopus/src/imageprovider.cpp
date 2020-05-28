@@ -16,7 +16,7 @@ namespace {
     const int PORT = 10001;
 }
 
-ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap), UDPInterface(QString("client:vision"), PORT){
+ImageProvider::ImageProvider():QQuickImageProvider(QQuickImageProvider::Pixmap), TCPInterface(QString("client:vision"), PORT){
     ParamManager::instance()->loadParam(isTest, "Test/isTest", false);
     ParamManager::instance()->loadParam(width, "Camera/width", 1280);
     ParamManager::instance()->loadParam(height, "Camera/height", 720);

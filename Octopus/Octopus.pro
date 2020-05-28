@@ -1,4 +1,4 @@
-QT += core quick widgets gamepad
+QT += core quick network widgets gamepad opengl
 android: QT += androidextras
 CONFIG += c++14
 
@@ -11,11 +11,12 @@ SOURCES += \
         src/clocsync.cpp \
         src/cmdsender.cpp \
         src/debugger.cpp \
-	src/main.cpp \
+        src/main.cpp \
         src/imageprovider.cpp \
         src/paraminterface.cpp \
         src/parammanager.cpp \
         src/sensorreceiver.cpp \
+        src/tcpinterface.cpp \
         src/treeitem.cpp \
         src/udpinterface.cpp \
         src/globaldata.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     include/parammanager.h \
     include/sensorreceiver.h \
     include/singleton.hpp \
+    include/tcpinterface.h \
     include/treeitem.h \
     include/globaldata.h \
     include/interaction.h \

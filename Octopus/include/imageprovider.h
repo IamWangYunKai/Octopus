@@ -4,9 +4,9 @@
 #include <QQuickImageProvider>
 #include <QUdpSocket>
 #include <QMutex>
-#include "udpinterface.h"
+#include "tcpinterface.h"
 
-class ImageProvider : public QQuickImageProvider, public UDPInterface{
+class ImageProvider : public QQuickImageProvider, public TCPInterface{
 public:
     ImageProvider();
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) override;
