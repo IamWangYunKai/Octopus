@@ -16,8 +16,9 @@ private:
     virtual void parseData();
     QImage image;
     QByteArray image_data;
-    int expect_package_num = -1;
+    int expect_data_len = 0;
     QMutex mutex;
+    qint64 timestamp;
 };
 
 #endif // IMAGEPROVIDER_H

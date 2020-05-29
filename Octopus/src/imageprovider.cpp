@@ -52,17 +52,36 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
 void ImageProvider::parseData(){
     QByteArray receivedData = socket->readAll();
     auto length = receivedData.length();
-    if(socket->state() == QAbstractSocket::ConnectedState){
-        if(length < 10){
+    qDebug() << "length" << length << receivedData;
+    if(length < 30){
+        expect_data_len = receivedData.mid(0, 8).toInt();
+        timestamp = static_cast<qint64>(receivedData.mid(8).toLongLong());
+        mutex.lock();
+        image_data.clear();
+        mutex.unlock();
+
+        socket->write("OK");
+        socket->waitForBytesWritten(100);
+    }
+    else{
+        mutex.lock();
+        image_data.append(receivedData);
+        mutex.unlock();
+        qDebug() << "left" << expect_data_len;
+        expect_data_len -= length;
+        if(expect_data_len <= 0){
+//            mutex.lock();
+//            image = QImage::fromData(image_data);
+//            mutex.unlock();
+
+            qint64 current = QDateTime::currentMSecsSinceEpoch();
+            qint64 timeBias = GlobalData::instance()->getSyncBias();
+            qint64 latency = current - (timeBias + timestamp)/1000;
+            GlobalData::instance()->setLatency(latency);
+            GlobalData::instance()->countFPS();
+
             socket->write("OK");
             socket->waitForBytesWritten(100);
-        }
-        else{
-            socket->write("OK");
-            socket->waitForBytesWritten(100);
-            mutex.lock();
-            image = QImage::fromData(receivedData);
-            mutex.unlock();
         }
     }
 }
