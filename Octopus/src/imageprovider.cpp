@@ -52,7 +52,7 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
 void ImageProvider::parseData(){
     QByteArray receivedData = socket->readAll();
     auto length = receivedData.length();
-    qDebug() << "length" << length << receivedData;
+//    qDebug() << "length" << length << receivedData;
     if(length < 30){
         expect_data_len = receivedData.mid(0, 8).toInt();
         timestamp = static_cast<qint64>(receivedData.mid(8).toLongLong());
@@ -67,12 +67,12 @@ void ImageProvider::parseData(){
         mutex.lock();
         image_data.append(receivedData);
         mutex.unlock();
-        qDebug() << "left" << expect_data_len;
+//        qDebug() << "left" << expect_data_len;
         expect_data_len -= length;
         if(expect_data_len <= 0){
-//            mutex.lock();
-//            image = QImage::fromData(image_data);
-//            mutex.unlock();
+            mutex.lock();
+            image = QImage::fromData(image_data);
+            mutex.unlock();
 
             qint64 current = QDateTime::currentMSecsSinceEpoch();
             qint64 timeBias = GlobalData::instance()->getSyncBias();
