@@ -1,5 +1,4 @@
 #include "cmdsender.h"
-#include "utils.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QDebug>
@@ -23,8 +22,7 @@ void CmdSender::sendCmd(){
     QJsonDocument doc;
     doc.setObject(object);
     QByteArray data = doc.toJson(QJsonDocument::Compact);
-    QByteArray bytes = toMessage(QString(data), robot_id, QString("cmd"));
-    socket.writeDatagram(bytes, QHostAddress(publicIP), publicPort);
+    socket.writeDatagram(data, QHostAddress(publicIP), publicPort);
 }
 
 void CmdSender::setV(double _v){
